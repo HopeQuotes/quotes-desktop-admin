@@ -1,12 +1,12 @@
 import 'package:admin/responsive.dart';
-import 'package:admin/screens/dashboard/components/my_fields.dart';
+import 'package:admin/screens/dashboard/components/basic_info_widgets.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants.dart';
 import 'components/header.dart';
 
-import 'components/recent_files.dart';
-import 'components/storage_details.dart';
+import 'components/popular_quotes_widget.dart';
+import 'components/quote_info_widget.dart';
 
 class DashboardScreen extends StatelessWidget {
   @override
@@ -25,7 +25,7 @@ class DashboardScreen extends StatelessWidget {
                   flex: 5,
                   child: Column(
                     children: [
-                      MyFiles(),
+                      BasicInfoWidgets(),
                       SizedBox(height: defaultPadding),
                       RecentFiles(),
                       if (Responsive.isMobile(context))

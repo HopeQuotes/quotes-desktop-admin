@@ -1,13 +1,13 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:admin/models/MyFiles.dart';
+import 'package:admin/models/statistics_info.dart';
 import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
-import 'file_info_card.dart';
+import 'basic_info_card_widget.dart';
 
-class MyFiles extends StatelessWidget {
-  const MyFiles({
+class BasicInfoWidgets extends StatelessWidget {
+  const BasicInfoWidgets({
     Key? key,
   }) : super(key: key);
 
@@ -20,39 +20,31 @@ class MyFiles extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "My Files",
+              "Basic info",
               style: Theme.of(context).textTheme.subtitle1,
             ),
             Row(
               children: [
-                ElevatedButton.icon(
-                  style: TextButton.styleFrom(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: defaultPadding * 1.5,
-                      vertical: defaultPadding /
-                          (Responsive.isMobile(context) ? 2 : 1),
+                GestureDetector(
+                  child: Container(
+                    padding: EdgeInsets.all(6),
+                    alignment: Alignment.center,
+                    width: 120,
+                    decoration: BoxDecoration(
+                        color: secondaryColor,
+                        borderRadius: BorderRadius.circular(12)),
+                    height: 52,
+                    child: Text(
+                      'Change theme',
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
-                  onPressed: () {
+                  onTap: () {
                     AdaptiveTheme.of(context).toggleThemeMode();
                   },
-                  icon: Icon(Icons.ac_unit_sharp),
-                  label: Text("Change Theme"),
                 ),
                 SizedBox(
                   width: 20,
-                ),
-                ElevatedButton.icon(
-                  style: TextButton.styleFrom(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: defaultPadding * 1.5,
-                      vertical: defaultPadding /
-                          (Responsive.isMobile(context) ? 2 : 1),
-                    ),
-                  ),
-                  onPressed: () {},
-                  icon: Icon(Icons.add),
-                  label: Text("Add New"),
                 ),
               ],
             ),
@@ -60,12 +52,12 @@ class MyFiles extends StatelessWidget {
         ),
         SizedBox(height: defaultPadding),
         Responsive(
-          mobile: FileInfoCardGridView(
+          mobile: BasicInfoCardGridView(
             crossAxisCount: _size.width < 650 ? 2 : 4,
             childAspectRatio: _size.width < 650 && _size.width > 350 ? 1.3 : 1,
           ),
-          tablet: FileInfoCardGridView(),
-          desktop: FileInfoCardGridView(
+          tablet: BasicInfoCardGridView(),
+          desktop: BasicInfoCardGridView(
             childAspectRatio: _size.width < 1400 ? 1.1 : 1.4,
           ),
         ),
@@ -74,8 +66,8 @@ class MyFiles extends StatelessWidget {
   }
 }
 
-class FileInfoCardGridView extends StatelessWidget {
-  const FileInfoCardGridView({
+class BasicInfoCardGridView extends StatelessWidget {
+  const BasicInfoCardGridView({
     Key? key,
     this.crossAxisCount = 4,
     this.childAspectRatio = 1,
@@ -96,7 +88,7 @@ class FileInfoCardGridView extends StatelessWidget {
         mainAxisSpacing: defaultPadding,
         childAspectRatio: childAspectRatio,
       ),
-      itemBuilder: (context, index) => FileInfoCard(info: demoMyFiles[index]),
+      itemBuilder: (context, index) => BasicInfoCard(info: demoMyFiles[index]),
     );
   }
 }

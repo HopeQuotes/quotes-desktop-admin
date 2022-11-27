@@ -1,4 +1,4 @@
-import 'package:admin/models/RecentFile.dart';
+import 'package:admin/models/quote.dart' as popular_quotes_widget;
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -22,7 +22,7 @@ class RecentFiles extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Recent Files",
+            "Popular quotes",
             style: Theme.of(context).textTheme.subtitle1,
           ),
           SizedBox(
@@ -32,18 +32,20 @@ class RecentFiles extends StatelessWidget {
               minWidth: 600,
               columns: [
                 DataColumn(
-                  label: Text("File Name"),
+                  label: Text("Author"),
                 ),
                 DataColumn(
                   label: Text("Date"),
                 ),
                 DataColumn(
-                  label: Text("Size"),
+                  label: Text("Body"),
                 ),
               ],
+
               rows: List.generate(
-                demoRecentFiles.length,
-                (index) => recentFileDataRow(demoRecentFiles[index]),
+                popular_quotes_widget.demoRecentFiles.length,
+                (index) => recentFileDataRow(
+                    popular_quotes_widget.demoRecentFiles[index]),
               ),
             ),
           ),
@@ -53,14 +55,14 @@ class RecentFiles extends StatelessWidget {
   }
 }
 
-DataRow recentFileDataRow(RecentFile fileInfo) {
+DataRow recentFileDataRow(popular_quotes_widget.Quote fileInfo) {
   return DataRow(
     cells: [
       DataCell(
         Row(
           children: [
             SvgPicture.asset(
-              fileInfo.icon!,
+              "assets/icons/sound_file.svg",
               height: 30,
               width: 30,
             ),
@@ -72,7 +74,7 @@ DataRow recentFileDataRow(RecentFile fileInfo) {
         ),
       ),
       DataCell(Text(fileInfo.date!)),
-      DataCell(Text(fileInfo.size!)),
+      DataCell(Text(fileInfo.body!)),
     ],
   );
 }
