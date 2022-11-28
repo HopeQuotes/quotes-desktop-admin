@@ -12,8 +12,7 @@ class QuoteRepositoryImpl extends QuoteRepository {
     try {
       yield DomainLoading();
       if (author.trim().isEmpty || body.isEmpty || hashtags.isEmpty) {
-        yield DomainValidationError(
-            message: 'Malumotlarni oxirigacha toldiring !');
+        yield DomainError(message: 'Malumotlarni oxirigacha toldiring !');
       } else {
         var response = await (await _client.request()).post('quote/create',
             data: CreateQuoteRequest(

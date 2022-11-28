@@ -5,6 +5,8 @@ import 'package:admin/domain/repository/implementation/quote_repository_impl.dar
 import '../../di/injector.dart';
 
 void initDomainDependencies() {
-  injector.registerSingleton<AuthRepository>(AuthRepositoryImpl(client: injector()));
-  injector.registerSingleton<QuoteRepositoryImpl>(QuoteRepositoryImpl(client: injector()));
+  injector.registerSingleton<AuthRepository>(
+      AuthRepositoryImpl(client: injector()));
+  injector.registerSingleton<QuoteRepositoryImpl>(
+      QuoteRepositoryImpl(client: injector()));
 }

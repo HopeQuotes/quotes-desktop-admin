@@ -1,4 +1,5 @@
 import 'package:admin/constants.dart';
+import 'package:admin/utils/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -19,6 +20,7 @@ class Input extends StatelessWidget {
       alignment: Alignment.center,
       margin: margin,
       child: TextField(
+        style: getTextStyle(),
         onSubmitted: (str) {
           onSubmit?.call(str);
         },

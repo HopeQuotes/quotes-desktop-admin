@@ -18,12 +18,4 @@ class DomainError extends DomainResult {
   });
 }
 
-class DomainValidationError extends DomainResult {
-  String? message;
-
-  DomainValidationError({
-    this.message,
-  });
-}
-
 class DomainLoading extends DomainResult {}

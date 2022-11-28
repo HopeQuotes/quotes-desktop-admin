@@ -11,10 +11,10 @@ class AuthRepositoryImpl extends AuthRepository {
   Stream<DomainResult> login(String email, String password) async* {
     try {
       yield DomainLoading();
-      if (email.trim().isEmpty) {
-        yield DomainValidationError(message: 'Emailingizni yozing.');
+      if (email.trim().isEmpty || password.trim().isEmpty) {
+        yield DomainError(message: 'Malumotlarni oxirigacha toldiring.');
       } else {
-        var response = await (await _client.request()).post('login',
+        var response = await (await _client.request()).post('v1/login',
             data: LoginRequest(email: email, password: password).toJson());
         if (response.statusCode == 200) {
           yield DomainSuccess();
@@ -23,7 +23,7 @@ class AuthRepositoryImpl extends AuthRepository {
         }
       }
     } catch (e) {
-      yield DomainError();
+      yield DomainError(message: 'Nomalum xatolik yuz berdi');
     }
   }
 
