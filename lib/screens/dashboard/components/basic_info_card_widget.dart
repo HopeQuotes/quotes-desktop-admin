@@ -1,4 +1,5 @@
 import 'package:admin/models/statistics_info.dart';
+import 'package:admin/utils/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -15,11 +16,12 @@ class BasicInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(28),
+      color: primaryLightColor,
       child: Container(
         padding: EdgeInsets.all(defaultPadding),
         decoration: BoxDecoration(
-          color: Theme.of(context).canvasColor,
+          color: primaryLightColor,
           borderRadius: const BorderRadius.all(Radius.circular(24)),
         ),
         child: Column(
@@ -47,13 +49,15 @@ class BasicInfoCard extends StatelessWidget {
             Text(
               info.title!,
               maxLines: 1,
+              style: getTextStyle(),
               overflow: TextOverflow.ellipsis,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text("${info.numOfFiles}",
-                    style: Theme.of(context).textTheme.headline6),
+                  style: getTextStyle(),
+                ),
               ],
             ),
           ],

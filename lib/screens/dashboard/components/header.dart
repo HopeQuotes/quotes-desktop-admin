@@ -1,9 +1,7 @@
 import 'package:admin/controllers/MenuController.dart';
 import 'package:admin/responsive.dart';
+import 'package:admin/utils/fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
-
 import '../../../constants.dart';
 
 class Header extends StatelessWidget {
@@ -18,12 +16,14 @@ class Header extends StatelessWidget {
         if (!Responsive.isDesktop(context))
           IconButton(
             icon: Icon(Icons.menu),
-            onPressed: context.read<MenuController>().controlMenu,
+            onPressed: () {
+              //
+            },
           ),
         if (!Responsive.isMobile(context))
           Text(
             "Dashboard",
-            style: Theme.of(context).textTheme.headline6,
+            style: getTextStyle(size: 24),
           ),
         if (!Responsive.isMobile(context))
           Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
@@ -47,7 +47,7 @@ class ProfileCard extends StatelessWidget {
         vertical: defaultPadding / 2,
       ),
       decoration: BoxDecoration(
-        color: Theme.of(context).canvasColor,
+        color: primaryLightColor,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         border: Border.all(color: Colors.white10),
       ),
@@ -57,7 +57,10 @@ class ProfileCard extends StatelessWidget {
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-              child: Text("Angelina Jolie"),
+              child: Text(
+                "Xoldarov Temur",
+                style: getTextStyle(),
+              ),
             ),
           // Icon(Icons.keyboard_arrow_down),
         ],

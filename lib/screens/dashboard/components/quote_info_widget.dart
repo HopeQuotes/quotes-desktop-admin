@@ -1,19 +1,21 @@
+import 'package:admin/utils/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../constants.dart';
 
-class StarageDetails extends StatelessWidget {
-  const StarageDetails({
+class QuoteDetails extends StatelessWidget {
+  const QuoteDetails({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(top: 36),
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
-        color: Theme.of(context).canvasColor,
+        color: primaryLightColor,
         borderRadius: const BorderRadius.all(Radius.circular(16)),
       ),
       child: Column(
@@ -21,20 +23,14 @@ class StarageDetails extends StatelessWidget {
         children: [
           Text(
             "Jack Robinson",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-            ),
+            style: getTextStyle(),
           ),
           Padding(
             padding: EdgeInsets.all(12),
           ),
           Text(
             "Life is made of ever so many partings welded together.",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-            ),
+            style: getTextStyle(),
           ),
           SizedBox(height: 200),
           Row(
@@ -45,12 +41,12 @@ class StarageDetails extends StatelessWidget {
                 height: 40,
                 width: 40,
                 decoration: BoxDecoration(
-                  color: primaryColor.withAlpha(10),
+                  color: primaryColor,
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                 ),
                 child: SvgPicture.asset(
                   'assets/icons/Documents.svg',
-                  color: primaryColor,
+                  color: Colors.white60,
                 ),
               ),
               Padding(
@@ -61,12 +57,12 @@ class StarageDetails extends StatelessWidget {
                 height: 40,
                 width: 40,
                 decoration: BoxDecoration(
-                  color: primaryColor.withAlpha(10),
+                  color: primaryColor,
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                 ),
                 child: SvgPicture.asset(
                   'assets/icons/Documents.svg',
-                  color: primaryColor,
+                  color: Colors.white60,
                 ),
               ),
             ],

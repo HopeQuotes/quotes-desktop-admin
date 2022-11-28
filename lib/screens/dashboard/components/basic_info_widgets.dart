@@ -1,9 +1,9 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:admin/models/statistics_info.dart';
 import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
+import '../../../utils/fonts.dart';
 import 'basic_info_card_widget.dart';
 
 class BasicInfoWidgets extends StatelessWidget {
@@ -13,40 +13,17 @@ class BasicInfoWidgets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size _size = MediaQuery.of(context).size;
-    return Column(
+    final Size _size = MediaQuery
+        .of(context)
+        .size;
+    return Container(child: Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               "Basic info",
-              style: Theme.of(context).textTheme.subtitle1,
-            ),
-            Row(
-              children: [
-                GestureDetector(
-                  child: Container(
-                    padding: EdgeInsets.all(6),
-                    alignment: Alignment.center,
-                    width: 120,
-                    decoration: BoxDecoration(
-                        color: secondaryColor,
-                        borderRadius: BorderRadius.circular(12)),
-                    height: 52,
-                    child: Text(
-                      'Change theme',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ),
-                  onTap: () {
-                    AdaptiveTheme.of(context).toggleThemeMode();
-                  },
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-              ],
+              style: getTextStyle(),
             ),
           ],
         ),
@@ -62,7 +39,7 @@ class BasicInfoWidgets extends StatelessWidget {
           ),
         ),
       ],
-    );
+    ), color: primaryColor,);
   }
 }
 
