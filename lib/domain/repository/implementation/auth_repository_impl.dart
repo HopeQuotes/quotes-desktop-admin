@@ -1,11 +1,25 @@
+import 'dart:convert';
+
 import 'package:admin/data/api/dio.dart';
+import 'package:admin/data/cache/box.dart';
+import 'package:admin/data/cache/keys.dart';
+import 'package:admin/domain/mappers/ui/user_mapper.dart';
+import 'package:admin/domain/models/base/base_response.dart';
+import 'package:admin/domain/models/cache/user_cache.dart';
+import 'package:admin/domain/models/response/user_response.dart';
 import 'package:admin/domain/models/state/domain_result.dart';
 import 'package:admin/domain/repository/abstraction/auth_repository.dart';
+import 'package:admin/models/user.dart';
+import 'package:hive/hive.dart';
 
 import '../../models/request/login_request.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
-  final DioClient _client;
+  final HttpClient _client;
+
+  AuthRepositoryImpl({
+    required DioClient client,
+  }) : _client = client;
 
   @override
   Stream<DomainResult> login(String email, String password) async* {
@@ -14,20 +28,23 @@ class AuthRepositoryImpl extends AuthRepository {
       if (email.trim().isEmpty || password.trim().isEmpty) {
         yield DomainError(message: 'Malumotlarni oxirigacha toldiring.');
       } else {
-        var response = await (await _client.request()).post('v1/login',
+        var response = await _client.post('v1/login',
             data: LoginRequest(email: email, password: password).toJson());
-        if (response.statusCode == 200) {
-          yield DomainSuccess();
-        } else {
-          yield DomainError(message: 'Xatolik yuz berdi...');
-        }
+
+        var decoded = BaseResponse<UserResponse>.fromJson(
+            jsonDecode(response.data), (p0) => UserResponse.fromJson(p0));
+        await saveUser(decoded.data.toUi());
+
+        yield DomainSuccess();
       }
     } catch (e) {
       yield DomainError(message: 'Nomalum xatolik yuz berdi');
     }
   }
 
-  AuthRepositoryImpl({
-    required DioClient client,
-  }) : _client = client;
+  @override
+  Future<void> saveUser(User user) async {
+    await (await getBox<UserCache>(HiveKeys.profile))
+        .put(HiveKeys.profile, user.toCache());
+  }
 }

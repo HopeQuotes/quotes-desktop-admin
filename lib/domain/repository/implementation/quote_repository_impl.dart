@@ -4,7 +4,7 @@ import 'package:admin/domain/models/state/domain_result.dart';
 import 'package:admin/domain/repository/abstraction/quote_repository.dart';
 
 class QuoteRepositoryImpl extends QuoteRepository {
-  final DioClient _client;
+  final HttpClient _client;
 
   @override
   Stream<DomainResult> createQuote(
@@ -14,7 +14,7 @@ class QuoteRepositoryImpl extends QuoteRepository {
       if (author.trim().isEmpty || body.isEmpty || hashtags.isEmpty) {
         yield DomainError(message: 'Malumotlarni oxirigacha toldiring !');
       } else {
-        var response = await (await _client.request()).post('quote/create',
+        var response = await _client.post('quote/create',
             data: CreateQuoteRequest(
                     author: '', text: '', hashtagIds: [], photoId: '')
                 .toJson());

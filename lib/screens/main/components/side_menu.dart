@@ -2,6 +2,7 @@ import 'package:admin/constants.dart';
 import 'package:admin/screens/dashboard/create/quote_create_screen.dart';
 import 'package:admin/screens/dashboard/dashboard_screen.dart';
 import 'package:admin/screens/dashboard/users/users_screen.dart';
+import 'package:admin/screens/hashtag/hashtag_screen.dart';
 import 'package:admin/screens/quotes/quotes_screen.dart';
 import 'package:admin/utils/fonts.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,13 @@ class SideMenu extends StatelessWidget {
             svgSrc: "assets/icons/menu_dashbord.svg",
             press: () {
               _onSelectMenu.call(QuoteCreateScreen());
+            },
+          ),
+          DrawerListTile(
+            title: "Hashtag",
+            svgSrc: "assets/icons/menu_dashbord.svg",
+            press: () {
+              _onSelectMenu.call(HashtagScreen());
             },
           ),
         ],

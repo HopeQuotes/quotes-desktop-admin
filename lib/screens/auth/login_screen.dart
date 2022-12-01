@@ -2,7 +2,9 @@ import 'package:admin/common_widgets/button_widget.dart';
 import 'package:admin/common_widgets/input_widget.dart';
 import 'package:admin/constants.dart';
 import 'package:admin/di/injector.dart';
+import 'package:admin/navigation/navigator.dart';
 import 'package:admin/screens/auth/bloc/auth_bloc.dart';
+import 'package:admin/screens/main/main_screen.dart';
 import 'package:admin/utils/print.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,6 +57,9 @@ class LoginScreen extends StatelessWidget {
       }, listener: (context, state) {
         if (state.authStatus == AuthStatus.fail) {
           context.showSnackBar(state.message, status: MessageStatus.fail);
+        }
+        if (state.authStatus == AuthStatus.success) {
+          context.navigateTo(MainScreen());
         }
       }),
     );
