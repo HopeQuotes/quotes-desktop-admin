@@ -4,7 +4,7 @@ import 'package:admin/domain/models/state/domain_result.dart';
 import 'package:admin/domain/repository/abstraction/quote_repository.dart';
 
 class QuoteRepositoryImpl extends QuoteRepository {
-  final HttpClient _client;
+  final DioClient _client;
 
   @override
   Stream<DomainResult> createQuote(

@@ -11,22 +11,23 @@ import '../../models/base/base_response.dart';
 import '../../models/request/create_hashtag_request.dart';
 
 class HashtagRepositoryImpl extends HashtagRepository {
-  final HttpClient _client;
+  final DioClient _client;
 
   @override
   Stream<DomainResult> createHashtag(String value) async* {
     try {
       yield DomainLoading();
       if (value.trim().isEmpty) {
-        yield DomainError(message: 'Malumotlarni oxirigacha toldiring.');
+        yield DomainError(message: 'Invalid input.');
       } else {
-        var response = await _client.post('v1/login',
+        var response = await _client.post('v1/hashtag',
             data: CreateHashtagRequest(value: value).toJson());
 
-        if (response.isSuccessful) yield DomainSuccess();
+        if (response.isSuccessful)
+          yield DomainSuccess(message: "Succussfully created !");
       }
     } catch (e) {
-      yield DomainError(message: 'Nomalum xatolik yuz berdi');
+      yield DomainError(message: 'Something went wrong...');
     }
   }
 
@@ -34,18 +35,18 @@ class HashtagRepositoryImpl extends HashtagRepository {
   Stream<DomainResult> getHashtags(int page) async* {
     try {
       yield DomainLoading();
-      var response = await _client.get('v1/hashtags&page=$page');
+      var response = await _client.get('v1/hashtags?page=$page');
       var decoded = BaseResponse<HashtagsResponse>.fromJson(
           jsonDecode(response.data), (p0) => HashtagsResponse.fromJson(p0));
 
       yield DomainSuccess<List<IdValue>>(
           data: decoded.data.data.map((e) => e.toUi()).toList());
     } catch (e) {
-      yield DomainError(message: 'Nomalum xatolik yuz berdi');
+      yield DomainError(message: 'Something went wrong...');
     }
   }
 
   HashtagRepositoryImpl({
-    required HttpClient client,
+    required DioClient client,
   }) : _client = client; //
 }

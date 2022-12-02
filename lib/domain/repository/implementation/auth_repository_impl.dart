@@ -15,7 +15,7 @@ import 'package:hive/hive.dart';
 import '../../models/request/login_request.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
-  final HttpClient _client;
+  final DioClient _client;
 
   AuthRepositoryImpl({
     required DioClient client,

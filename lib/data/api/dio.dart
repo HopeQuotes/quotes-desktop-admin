@@ -1,3 +1,4 @@
+import 'package:admin/domain/models/cache/user_cache.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_logging_interceptor/dio_logging_interceptor.dart';
 import 'package:flutter/foundation.dart';
@@ -5,31 +6,11 @@ import 'package:flutter/foundation.dart';
 import '../cache/box.dart';
 import '../cache/keys.dart';
 
-abstract class HttpClient {
-  Future<Response<T>> post<T>(
-    String path, {
-    data,
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
-  });
-
-  Future<Response<T>> get<T>(
-    String path, {
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-    ProgressCallback? onReceiveProgress,
-  });
-}
-
 extension ResponseExt on Response {
   bool get isSuccessful => this.statusCode == 200;
 }
 
-class DioClient extends HttpClient {
+class DioClient {
   final String _baseUrl = "https://quotes.esoteric.uz/";
   late Dio _dio;
 
@@ -49,7 +30,9 @@ class DioClient extends HttpClient {
   }
 
   Future<BaseOptions> _getOptions() async {
-    var token = await (await getBox(HiveKeys.appData)).get(HiveKeys.token);
+    var user =
+        (await getBox<UserCache>(HiveKeys.profile)).get(HiveKeys.profile);
+    var token = user?.authToken;
 
     return BaseOptions(
         baseUrl: _baseUrl,
@@ -72,7 +55,6 @@ class DioClient extends HttpClient {
     return CancelToken();
   }
 
-  @override
   Future<Response<T>> post<T>(String path,
       {data,
       Map<String, dynamic>? queryParameters,
@@ -88,12 +70,12 @@ class DioClient extends HttpClient {
         cancelToken: cancelToken);
   }
 
-  @override
   Future<Response<T>> get<T>(String path,
       {Map<String, dynamic>? queryParameters,
       Options? options,
       CancelToken? cancelToken,
       ProgressCallback? onReceiveProgress}) async {
+    _dio.options = await _getOptions();
     return _dio.get<T>(path,
         queryParameters: queryParameters,
         options: options,

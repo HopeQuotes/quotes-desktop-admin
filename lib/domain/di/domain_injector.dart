@@ -7,9 +7,11 @@ import 'package:admin/domain/repository/implementation/entrance_repository_impl.
 import 'package:admin/domain/repository/implementation/hashtag_repository_impl.dart';
 import 'package:admin/domain/repository/implementation/quote_repository_impl.dart';
 
+import '../../data/api/dio.dart';
 import '../../di/injector.dart';
 
 void initDomainDependencies() {
+  injector.registerSingleton<DioClient>(DioClient());
   injector.registerSingleton<AuthRepository>(
       AuthRepositoryImpl(client: injector()));
   injector.registerSingleton<QuoteRepository>(

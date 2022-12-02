@@ -8,23 +8,30 @@ class HashtagState extends Equatable {
   final HashTagCreateStatus? createStatus;
   final HashTagPagingStatus? hashTagPagingStatus;
   final List<IdValue>? hashtags;
+  final String? createHashtagMessage;
 
-  HashtagState({
+  @override
+  List<Object?> get props =>
+      [createStatus, hashTagPagingStatus, hashtags, createHashtagMessage];
+
+  const HashtagState({
     this.createStatus,
     this.hashTagPagingStatus,
     this.hashtags,
+    this.createHashtagMessage,
   });
-
-  @override
-  List<Object?> get props => [createStatus, hashTagPagingStatus];
 
   HashtagState copyWith({
     HashTagCreateStatus? createStatus,
     HashTagPagingStatus? hashTagPagingStatus,
+    List<IdValue>? hashtags,
+    String? createHashtagMessage,
   }) {
     return HashtagState(
       createStatus: createStatus ?? this.createStatus,
       hashTagPagingStatus: hashTagPagingStatus ?? this.hashTagPagingStatus,
+      hashtags: hashtags ?? this.hashtags,
+      createHashtagMessage: createHashtagMessage ?? this.createHashtagMessage,
     );
   }
 }
