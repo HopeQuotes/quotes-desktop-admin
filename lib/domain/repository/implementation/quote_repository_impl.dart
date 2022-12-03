@@ -16,10 +16,10 @@ class QuoteRepositoryImpl extends QuoteRepository {
       } else {
         var response = await _client.post('quote/create',
             data: CreateQuoteRequest(
-                    author: '', text: '', hashtagIds: [], photoId: '')
+                    author: author, text: body, hashtagIds: hashtags)
                 .toJson());
         if (response.statusCode == 200) {
-          yield DomainSuccess();
+          yield DomainSuccess(message: "Quote created !");
         } else {
           yield DomainError(message: 'Xatolik yuz berdi...');
         }

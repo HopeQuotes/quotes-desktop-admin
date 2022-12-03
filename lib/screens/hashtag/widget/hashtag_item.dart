@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 class HashTagItem extends StatelessWidget {
   final String text;
+  final Function? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +48,13 @@ class HashTagItem extends StatelessWidget {
           ),
         ),
         onTap: () {
-          //
+          print("click");
+          onTap?.call();
         });
   }
 
   const HashTagItem({
     required this.text,
+    this.onTap,
   });
 }

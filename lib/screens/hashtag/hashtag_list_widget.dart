@@ -1,11 +1,14 @@
 import 'package:admin/common_widgets/chip_item_widget.dart';
 import 'package:admin/di/injector.dart';
+import 'package:admin/models/id_value.dart';
 import 'package:admin/screens/hashtag/bloc/hashtag_bloc.dart';
 import 'package:admin/screens/hashtag/widget/hashtag_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HashtagListWidget extends StatelessWidget {
+  final Function(IdValue)? onSelectHashTag;
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -25,6 +28,10 @@ class HashtagListWidget extends StatelessWidget {
                 crossAxisCount: 2,
                 children: (state.hashtags ?? [])
                     .map((e) => HashTagItem(
+                          onTap: () {
+                            onSelectHashTag?.call(e);
+                            print("click 2");
+                          },
                           text: e.value,
                         ))
                     .toList()),
@@ -38,4 +45,8 @@ class HashtagListWidget extends StatelessWidget {
       ),
     );
   }
+
+  const HashtagListWidget({
+    this.onSelectHashTag,
+  });
 }

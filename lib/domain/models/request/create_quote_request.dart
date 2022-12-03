@@ -9,13 +9,13 @@ class CreateQuoteRequest {
   @JsonKey(name: 'hashtagIDs')
   List<String> hashtagIds;
   @JsonKey(name: 'photoID')
-  String photoId;
+  String? photoId;
 
   CreateQuoteRequest({
     required this.author,
     required this.text,
     required this.hashtagIds,
-    required this.photoId,
+    this.photoId,
   });
 
   factory CreateQuoteRequest.fromJson(Map<String, dynamic> json) =>

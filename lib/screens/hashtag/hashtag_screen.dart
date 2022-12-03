@@ -32,7 +32,7 @@ class HashtagScreen extends StatelessWidget {
                         children: [
                           Container(
                             child: Text(
-                              "Create hastag",
+                              "Create hashtag",
                               style: getTextStyle(size: 24),
                             ),
                             margin: EdgeInsets.all(24),

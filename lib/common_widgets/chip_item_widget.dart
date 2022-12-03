@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ChipItem extends StatefulWidget {
-  final String text;
+  final String? text;
   final Function(int) onDelete;
   final int index;
 
@@ -58,7 +58,7 @@ class _ChipItemState extends State<ChipItem> {
                     padding: EdgeInsets.only(right: 4),
                   ),
                   Text(
-                    widget.text,
+                    widget.text ?? "",
                     style: GoogleFonts.nunito(
                         fontWeight: FontWeight.w600,
                         fontSize: 16,
