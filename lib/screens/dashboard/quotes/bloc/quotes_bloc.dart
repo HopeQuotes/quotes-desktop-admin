@@ -8,6 +8,7 @@ import 'package:meta/meta.dart';
 
 import '../../../../domain/models/state/domain_result.dart';
 import '../../../../domain/repository/abstraction/create_quote_repository.dart';
+import '../../../../domain/repository/abstraction/quotes_repository.dart';
 import '../../../../models/id_value.dart';
 
 part 'quotes_event.dart';
@@ -15,7 +16,7 @@ part 'quotes_event.dart';
 part 'quotes_state.dart';
 
 class QuotesBloc extends Bloc<QuotesEvent, QuotesState> {
-  final QuoteRepository _repository;
+  final QuotesRepository _repository;
   final ScrollController hashtagScrollController = ScrollController();
   int page = 1;
   var endOfPaginationReached = false;
@@ -25,7 +26,7 @@ class QuotesBloc extends Bloc<QuotesEvent, QuotesState> {
   }
 
   Future<void> _loadQuotes(LoadQuotes event, Emitter emitter) async {
-    return emitter.forEach<DomainResult>(_repository.getHashtags(page),
+    return emitter.forEach<DomainResult>(_repository.getQuotes(page),
         onData: (data) {
       if (data is DomainSuccess<List<Quote>>) {
         endOfPaginationReached = (data.data ?? []).length < 20;
