@@ -40,11 +40,11 @@ class _QuoteItemWidgetState extends State<QuoteItemWidget>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          margin: EdgeInsets.all(12),
-          child: ListTile(
+    return Container(
+      margin: EdgeInsets.all(12),
+      child: Column(
+        children: [
+          ListTile(
             title: Container(
               child: Text(
                 widget._quote.title ?? "Temur",
@@ -61,46 +61,47 @@ class _QuoteItemWidgetState extends State<QuoteItemWidget>
               margin: EdgeInsets.all(12),
             ),
           ),
-          decoration: BoxDecoration(
-            color: Colors.white.withAlpha(12),
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.all(12),
-          child: TabBar(
-            controller: _tabController,
-            onTap: (index) {
-              setState(() {
-                stateIndex = index;
-              });
-            },
-            labelStyle: getTextStyle(),
-            splashBorderRadius: BorderRadius.circular(24),
-            unselectedLabelColor: Colors.white.withAlpha(52),
-            indicator: ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24),
+          Spacer(),
+          Container(
+            margin: EdgeInsets.only(left: 12, right: 12, bottom: 12),
+            child: TabBar(
+              controller: _tabController,
+              onTap: (index) {
+                setState(() {
+                  stateIndex = index;
+                });
+              },
+              labelStyle: getTextStyle(),
+              splashBorderRadius: BorderRadius.circular(16),
+              unselectedLabelColor: Colors.white.withAlpha(52),
+              indicator: ShapeDecoration(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  color: _getColorByState()),
+              isScrollable: false,
+              tabs: [
+                Tab(
+                  height: 42,
+                  text: 'verified',
                 ),
-                color: _getColorByState()),
-            isScrollable: false,
-            tabs: [
-              Tab(
-                height: 42,
-                text: 'verified',
-              ),
-              Tab(
-                height: 42,
-                text: 'pending',
-              ),
-              Tab(
-                height: 42,
-                text: 'rejected',
-              ),
-            ],
+                Tab(
+                  height: 42,
+                  text: 'pending',
+                ),
+                Tab(
+                  height: 42,
+                  text: 'rejected',
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white.withAlpha(12),
+        borderRadius: BorderRadius.circular(16),
+      ),
     );
   }
 }
