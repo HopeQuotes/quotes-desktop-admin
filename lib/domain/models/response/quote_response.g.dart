@@ -6,6 +6,18 @@ part of 'quote_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+QuotesResponse _$QuotesResponseFromJson(Map<String, dynamic> json) =>
+    QuotesResponse(
+      data: (json['data'] as List<dynamic>)
+          .map((e) => QuoteResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$QuotesResponseToJson(QuotesResponse instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+    };
+
 QuoteResponse _$QuoteResponseFromJson(Map<String, dynamic> json) =>
     QuoteResponse(
       id: json['id'] as String,

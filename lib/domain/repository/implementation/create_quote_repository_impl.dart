@@ -1,9 +1,16 @@
+import 'dart:convert';
+
 import 'package:admin/data/api/dio.dart';
+import 'package:admin/domain/mappers/ui/id_value_mapper.dart';
 import 'package:admin/domain/models/request/create_quote_request.dart';
 import 'package:admin/domain/models/state/domain_result.dart';
-import 'package:admin/domain/repository/abstraction/quote_repository.dart';
+import 'package:admin/domain/repository/abstraction/create_quote_repository.dart';
 
-class QuoteRepositoryImpl extends QuoteRepository {
+import '../../../models/id_value.dart';
+import '../../models/base/base_response.dart';
+import '../../models/response/hashtags_response.dart';
+
+class CreateQuoteRepositoryImpl extends QuoteRepository {
   final DioClient _client;
 
   @override
@@ -30,6 +37,21 @@ class QuoteRepositoryImpl extends QuoteRepository {
   }
 
   @override
+  Stream<DomainResult> getHashtags(int page) async* {
+    try {
+      yield DomainLoading();
+      var response = await _client.get('v1/hashtags?page=$page');
+      var decoded = BaseResponse<HashtagsResponse>.fromJson(
+          jsonDecode(response.data), (p0) => HashtagsResponse.fromJson(p0));
+
+      yield DomainSuccess<List<IdValue>>(
+          data: decoded.data.data.map((e) => e.toUi()).toList());
+    } catch (e) {
+      yield DomainError(message: 'Something went wrong...');
+    }
+  }
+
+  @override
   Stream<DomainResult> deleteQuote() {
     // TODO: implement deleteQuote
     throw UnimplementedError();
@@ -41,7 +63,7 @@ class QuoteRepositoryImpl extends QuoteRepository {
     throw UnimplementedError();
   }
 
-  QuoteRepositoryImpl({
+  CreateQuoteRepositoryImpl({
     required DioClient client,
   }) : _client = client;
 }

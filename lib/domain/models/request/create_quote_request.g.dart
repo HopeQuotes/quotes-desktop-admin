@@ -13,7 +13,7 @@ CreateQuoteRequest _$CreateQuoteRequestFromJson(Map<String, dynamic> json) =>
       hashtagIds: (json['hashtagIDs'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
-      photoId: json['photoID'] as String,
+      photoId: json['photoID'] as String?,
     );
 
 Map<String, dynamic> _$CreateQuoteRequestToJson(CreateQuoteRequest instance) =>

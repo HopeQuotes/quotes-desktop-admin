@@ -1,11 +1,13 @@
 import 'package:admin/domain/repository/abstraction/auth_repository.dart';
 import 'package:admin/domain/repository/abstraction/entrance_repository.dart';
 import 'package:admin/domain/repository/abstraction/hashtag_repository.dart';
-import 'package:admin/domain/repository/abstraction/quote_repository.dart';
+import 'package:admin/domain/repository/abstraction/create_quote_repository.dart';
+import 'package:admin/domain/repository/abstraction/quotes_repository.dart';
 import 'package:admin/domain/repository/implementation/auth_repository_impl.dart';
 import 'package:admin/domain/repository/implementation/entrance_repository_impl.dart';
 import 'package:admin/domain/repository/implementation/hashtag_repository_impl.dart';
-import 'package:admin/domain/repository/implementation/quote_repository_impl.dart';
+import 'package:admin/domain/repository/implementation/create_quote_repository_impl.dart';
+import 'package:admin/domain/repository/implementation/quotes_repository_impl.dart';
 
 import '../../data/api/dio.dart';
 import '../../di/injector.dart';
@@ -15,8 +17,10 @@ void initDomainDependencies() {
   injector.registerSingleton<AuthRepository>(
       AuthRepositoryImpl(client: injector()));
   injector.registerSingleton<QuoteRepository>(
-      QuoteRepositoryImpl(client: injector()));
+      CreateQuoteRepositoryImpl(client: injector()));
   injector.registerSingleton<EntranceRepository>(EntranceRepositoryImpl());
-  injector.registerSingleton<HashtagRepository>(HashtagRepositoryImpl(client: injector()));
-
+  injector.registerSingleton<HashtagRepository>(
+      HashtagRepositoryImpl(client: injector()));
+  injector.registerSingleton<QuotesRepository>(
+      QuotesRepositoryImpl(client: injector()));
 }

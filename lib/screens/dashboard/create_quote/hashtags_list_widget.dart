@@ -1,23 +1,20 @@
-import 'package:admin/di/injector.dart';
-import 'package:admin/models/id_value.dart';
-import 'package:admin/screens/hashtag/bloc/hashtag_bloc.dart';
-import 'package:admin/screens/hashtag/widget/hashtag_item.dart';
+import 'package:admin/screens/dashboard/create_quote/bloc/create_quote_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'bloc/hashtag_event.dart';
-import 'bloc/hashtag_state.dart';
+import '../../../models/id_value.dart';
+import '../../hashtag/widget/hashtag_item.dart';
 
-class HashtagListWidget extends StatelessWidget {
+class CreateQuoteHashtagsListWidget extends StatelessWidget {
   final Function(IdValue)? onSelectHashTag;
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return BlocConsumer<HashtagBloc, HashtagState>(
+    return BlocConsumer<CreateQuoteBloc, CreateQuoteState>(
       builder: (context, state) {
-        var bloc = context.read<HashtagBloc>();
+        var bloc = context.read<CreateQuoteBloc>();
         return Container(
           padding: EdgeInsets.all(12),
           alignment: Alignment.center,
@@ -50,7 +47,7 @@ class HashtagListWidget extends StatelessWidget {
     );
   }
 
-  const HashtagListWidget({
+  const CreateQuoteHashtagsListWidget({
     this.onSelectHashTag,
   });
 }

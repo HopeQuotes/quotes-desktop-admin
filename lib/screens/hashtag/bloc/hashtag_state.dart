@@ -1,8 +1,15 @@
-part of 'hashtag_bloc.dart';
+import 'package:equatable/equatable.dart';
+
+import '../../../models/id_value.dart';
 
 enum HashTagCreateStatus { success, fail, loading }
 
-enum HashTagPagingStatus { success, fail, loading }
+enum HashTagPagingStatus {
+  successPaging,
+  failPaging,
+  pagingLoading,
+  initialPaging
+}
 
 class HashtagState extends Equatable {
   final HashTagCreateStatus? createStatus;

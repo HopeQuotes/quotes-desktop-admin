@@ -1,12 +1,13 @@
 import 'package:admin/constants.dart';
-import 'package:admin/screens/dashboard/create/quote_create_screen.dart';
+import 'package:admin/screens/dashboard/create_quote/quote_create_screen.dart';
 import 'package:admin/screens/dashboard/dashboard_screen.dart';
 import 'package:admin/screens/dashboard/users/users_screen.dart';
 import 'package:admin/screens/hashtag/hashtag_screen.dart';
-import 'package:admin/screens/quotes/quotes_screen.dart';
 import 'package:admin/utils/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../dashboard/quotes/quotes_screen.dart';
 
 class SideMenu extends StatelessWidget {
   Function(Widget) _onSelectMenu;

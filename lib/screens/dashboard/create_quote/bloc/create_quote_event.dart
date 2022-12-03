@@ -6,15 +6,17 @@ abstract class CreateQuoteEvent {}
 class CreateQuote extends CreateQuoteEvent {}
 
 class AddHashTag extends CreateQuoteEvent {
-  IdValue hashtag;
+  final IdValue hashtag;
 
   AddHashTag({
     required this.hashtag,
   });
 }
 
+class LoadHashTags extends CreateQuoteEvent {}
+
 class RemoteHashTag extends CreateQuoteEvent {
-  IdValue hashtag;
+  final IdValue hashtag;
 
   RemoteHashTag({
     required this.hashtag,

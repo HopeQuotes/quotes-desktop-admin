@@ -3,6 +3,18 @@ import 'package:json_annotation/json_annotation.dart';
 part 'quote_response.g.dart';
 
 @JsonSerializable()
+class QuotesResponse {
+  List<QuoteResponse> data;
+
+  QuotesResponse({
+    required this.data,
+  });
+
+  factory QuotesResponse.fromJson(Map<String, dynamic> json) =>
+      _$QuotesResponseFromJson(json);
+}
+
+@JsonSerializable()
 class QuoteResponse {
   String id;
   String state;
