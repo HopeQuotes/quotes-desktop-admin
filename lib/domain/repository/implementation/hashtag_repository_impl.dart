@@ -4,7 +4,7 @@ import 'package:admin/domain/mappers/ui/id_value_mapper.dart';
 import 'package:admin/domain/models/response/hashtags_response.dart';
 import 'package:admin/domain/models/state/domain_result.dart';
 import 'package:admin/domain/repository/abstraction/hashtag_repository.dart';
-import 'package:admin/models/id_value.dart';
+import 'package:admin/domain/models/ui/id_value.dart';
 
 import '../../../data/api/dio.dart';
 import '../../models/base/base_response.dart';

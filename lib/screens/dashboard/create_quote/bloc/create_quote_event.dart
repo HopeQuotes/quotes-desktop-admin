@@ -15,6 +15,16 @@ class AddHashTag extends CreateQuoteEvent {
 
 class LoadHashTags extends CreateQuoteEvent {}
 
+class LoadImages extends CreateQuoteEvent {}
+
+class SetSelectedImageId extends CreateQuoteEvent {
+  final String id;
+
+  SetSelectedImageId({
+    required this.id,
+  });
+}
+
 class RemoteHashTag extends CreateQuoteEvent {
   final IdValue hashtag;
 

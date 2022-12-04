@@ -1,5 +1,5 @@
 import 'package:admin/domain/models/response/user_response.dart';
-import 'package:admin/models/user.dart';
+import '../../models/ui/user.dart';
 
 import '../../models/state/domain_result.dart';
 

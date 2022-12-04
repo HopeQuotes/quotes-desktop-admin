@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../models/id_value.dart';
+import '../../../domain/models/ui/id_value.dart';
 
 enum HashTagCreateStatus { success, fail, loading }
 

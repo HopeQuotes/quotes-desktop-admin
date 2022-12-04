@@ -12,7 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common_widgets/chip_item_widget.dart';
 import '../../../common_widgets/input_widget.dart';
-import 'hashtags_list_widget.dart';
+import 'create_quote_data_tabs_widget.dart';
 
 class QuoteCreateScreen extends StatelessWidget {
   @override
@@ -21,7 +21,9 @@ class QuoteCreateScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: primaryColor,
       body: BlocProvider(
-        create: (_) => CreateQuoteBloc(injector())..add(LoadHashTags()),
+        create: (_) => CreateQuoteBloc(injector())
+          ..add(LoadHashTags())
+          ..add(LoadImages()),
         child: BlocConsumer<CreateQuoteBloc, CreateQuoteState>(
           builder: (context, state) {
             var bloc = context.read<CreateQuoteBloc>();
@@ -94,7 +96,8 @@ class QuoteCreateScreen extends StatelessWidget {
                         child: Button(
                           width: 152,
                           height: 56,
-                          disabled: state.status == CreateQuoteStatus.loading,
+                          disabled: state.createQuoteStatus ==
+                              CreateQuoteStatus.loading,
                           title: 'Create',
                           onClick: () {
                             bloc.add(CreateQuote());
@@ -120,10 +123,16 @@ class QuoteCreateScreen extends StatelessWidget {
                                 Spacer()
                               ],
                             )
-                          : CreateQuoteHashtagsListWidget(
-                              onSelectHashTag: (hashtag) {
-                                bloc.add(AddHashTag(hashtag: hashtag));
-                              },
+                          : Container(
+                              child: CreateQuoteDataTabsWidget(
+                                onSelectImage: (image) {
+                                  bloc.add(SetSelectedImageId(id: image.id));
+                                },
+                                onSelectHashTag: (hashtag) {
+                                  bloc.add(AddHashTag(hashtag: hashtag));
+                                },
+                              ),
+                              height: size.height * .8,
                             ),
                     ],
                   ),
@@ -133,6 +142,9 @@ class QuoteCreateScreen extends StatelessWidget {
                 ),
               ],
             );
+          },
+          listenWhen: (prev, curr) {
+            return prev.message != curr.message;
           },
           listener: (context, state) {
             context.showSnackBar(state.message);

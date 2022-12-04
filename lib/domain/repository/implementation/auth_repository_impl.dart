@@ -9,10 +9,10 @@ import 'package:admin/domain/models/cache/user_cache.dart';
 import 'package:admin/domain/models/response/user_response.dart';
 import 'package:admin/domain/models/state/domain_result.dart';
 import 'package:admin/domain/repository/abstraction/auth_repository.dart';
-import 'package:admin/models/user.dart';
 import 'package:hive/hive.dart';
 
 import '../../models/request/login_request.dart';
+import '../../models/ui/user.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
   final DioClient _client;

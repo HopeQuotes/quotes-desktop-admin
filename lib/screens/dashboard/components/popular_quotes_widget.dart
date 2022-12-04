@@ -1,8 +1,8 @@
-import 'package:admin/models/quote.dart' as popular_quotes_widget;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../constants.dart';
+import '../../../domain/models/ui/quote.dart';
 
 class RecentFiles extends StatelessWidget {
   const RecentFiles({
@@ -52,7 +52,7 @@ class RecentFiles extends StatelessWidget {
   }
 }
 
-DataRow recentFileDataRow(popular_quotes_widget.Quote fileInfo) {
+DataRow recentFileDataRow(Quote fileInfo) {
   return DataRow(
     cells: [
       DataCell(
@@ -65,13 +65,13 @@ DataRow recentFileDataRow(popular_quotes_widget.Quote fileInfo) {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-              child: Text(fileInfo.title!),
+              child: Text(fileInfo.author),
             ),
           ],
         ),
       ),
-      DataCell(Text(fileInfo.date!)),
-      DataCell(Text(fileInfo.body!)),
+      DataCell(Text(fileInfo.state)),
+      DataCell(Text(fileInfo.text)),
     ],
   );
 }

@@ -1,13 +1,15 @@
+import 'package:admin/domain/models/ui/image.dart';
 import 'package:admin/screens/dashboard/create_quote/bloc/create_quote_bloc.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:admin/screens/dashboard/create_quote/widgets/quote_image_item_widget.dart';
+import 'package:admin/utils/fonts.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../models/id_value.dart';
 import '../../hashtag/widget/hashtag_item.dart';
 
-class CreateQuoteHashtagsListWidget extends StatelessWidget {
-  final Function(IdValue)? onSelectHashTag;
+class ImagesScreen extends StatelessWidget {
+  final Function(QuoteImage)? onSelectImage;
 
   @override
   Widget build(BuildContext context) {
@@ -16,26 +18,27 @@ class CreateQuoteHashtagsListWidget extends StatelessWidget {
       builder: (context, state) {
         var bloc = context.read<CreateQuoteBloc>();
         return Container(
+          margin: EdgeInsets.only(top: 12),
           padding: EdgeInsets.all(12),
           alignment: Alignment.center,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(16),
               color: Colors.white.withAlpha(6)),
           child: GridView.count(
               primary: false,
               padding: const EdgeInsets.all(20),
               crossAxisSpacing: 10,
-              childAspectRatio: 2.8,
-              controller: bloc.hashtagScrollController,
+              childAspectRatio: 1,
               mainAxisSpacing: 2,
               crossAxisCount: 2,
-              children: (state.hashtags ?? [])
-                  .map((e) => HashTagItem(
-                        onTap: () {
-                          onSelectHashTag?.call(e);
-                        },
-                        text: e.value,
-                      ))
+              children: (state.images ?? [])
+                  .map(
+                    (e) => QuoteImageItemWidget(
+                      image:
+                          e.copyWith(isSelected: state.selectedImageId == e.id),
+                      onSelectImage: onSelectImage,
+                    ),
+                  )
                   .toList()),
           width: size.width * .35,
           height: size.height * .9,
@@ -47,7 +50,7 @@ class CreateQuoteHashtagsListWidget extends StatelessWidget {
     );
   }
 
-  const CreateQuoteHashtagsListWidget({
-    this.onSelectHashTag,
+  const ImagesScreen({
+    this.onSelectImage,
   });
 }

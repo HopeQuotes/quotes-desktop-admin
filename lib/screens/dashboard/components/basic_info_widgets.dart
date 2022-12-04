@@ -1,4 +1,4 @@
-import 'package:admin/models/statistics_info.dart';
+import '../../../domain/models/ui/statistics_info.dart';
 import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
 

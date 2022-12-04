@@ -1,6 +1,7 @@
 import 'package:admin/domain/models/cache/user_cache.dart';
 import 'package:admin/domain/models/response/user_response.dart';
-import 'package:admin/models/user.dart';
+
+import '../../models/ui/user.dart';
 
 extension UserResponseToCache on UserResponse {
   UserCache toCache() {

@@ -1,15 +1,14 @@
 import 'dart:async';
 
-import 'package:admin/models/quote.dart';
+import 'package:admin/utils/controller.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../domain/models/state/domain_result.dart';
-import '../../../../domain/repository/abstraction/create_quote_repository.dart';
+import '../../../../domain/models/ui/quote.dart';
 import '../../../../domain/repository/abstraction/quotes_repository.dart';
-import '../../../../models/id_value.dart';
 
 part 'quotes_event.dart';
 
@@ -23,6 +22,13 @@ class QuotesBloc extends Bloc<QuotesEvent, QuotesState> {
 
   QuotesBloc(this._repository) : super(QuotesState()) {
     on<LoadQuotes>(_loadQuotes);
+
+    hashtagScrollController.onBottomReached(() {
+      if (!endOfPaginationReached) {
+        page++;
+        add(LoadQuotes());
+      }
+    });
   }
 
   Future<void> _loadQuotes(LoadQuotes event, Emitter emitter) async {

@@ -1,9 +1,9 @@
-import 'package:admin/models/quote.dart';
 import 'package:admin/utils/fonts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../constants.dart';
+import '../../../../domain/models/ui/quote.dart';
 
 class QuoteItemWidget extends StatefulWidget {
   final Quote _quote;
@@ -19,12 +19,24 @@ class QuoteItemWidget extends StatefulWidget {
 class _QuoteItemWidgetState extends State<QuoteItemWidget>
     with TickerProviderStateMixin {
   late TabController _tabController;
-  var stateIndex = 1;
+  var stateIndex = -1;
 
   @override
   void initState() {
     _tabController = TabController(length: 3, vsync: this);
-    _tabController.animateTo(1);
+    if (widget._quote.state == "pending") {
+      stateIndex = 1;
+    }
+
+    if (widget._quote.state == "verified") {
+      stateIndex = 0;
+    }
+
+    if (widget._quote.state == "rejected") {
+      stateIndex = 2;
+    }
+    _tabController.animateTo(stateIndex);
+
     super.initState();
   }
 
@@ -41,22 +53,22 @@ class _QuoteItemWidgetState extends State<QuoteItemWidget>
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(12),
       child: Column(
         children: [
           ListTile(
             title: Container(
               child: Text(
-                widget._quote.title ?? "Temur",
-                style: getTextStyle(color: Colors.white.withAlpha(200)),
+                widget._quote.author,
+                style:
+                    getTextStyle(color: Colors.white.withAlpha(200), size: 16),
               ),
               margin: EdgeInsets.all(12),
             ),
             subtitle: Container(
               child: Text(
-                widget._quote.body ??
-                    "I got this to work with the latest build_runner and json_serializable versions after a long processI got this to work with the latest build_runner and json_serializable versions after a long processI got this to work with the latest build_runner and json_serializable versions after a long processvvv",
-                style: getTextStyle(color: Colors.white.withAlpha(200)),
+                widget._quote.text,
+                style:
+                    getTextStyle(color: Colors.white.withAlpha(200), size: 14),
               ),
               margin: EdgeInsets.all(12),
             ),
@@ -71,7 +83,7 @@ class _QuoteItemWidgetState extends State<QuoteItemWidget>
                   stateIndex = index;
                 });
               },
-              labelStyle: getTextStyle(),
+              labelStyle: getTextStyle(size: 12),
               splashBorderRadius: BorderRadius.circular(16),
               unselectedLabelColor: Colors.white.withAlpha(52),
               indicator: ShapeDecoration(
@@ -82,15 +94,15 @@ class _QuoteItemWidgetState extends State<QuoteItemWidget>
               isScrollable: false,
               tabs: [
                 Tab(
-                  height: 42,
+                  height: 32,
                   text: 'verified',
                 ),
                 Tab(
-                  height: 42,
+                  height: 32,
                   text: 'pending',
                 ),
                 Tab(
-                  height: 42,
+                  height: 32,
                   text: 'rejected',
                 ),
               ],

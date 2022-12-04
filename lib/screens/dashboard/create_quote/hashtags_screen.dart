@@ -1,28 +1,26 @@
-import 'package:admin/di/injector.dart';
 import 'package:admin/domain/models/ui/id_value.dart';
-import 'package:admin/screens/hashtag/bloc/hashtag_bloc.dart';
-import 'package:admin/screens/hashtag/widget/hashtag_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'bloc/hashtag_event.dart';
-import 'bloc/hashtag_state.dart';
+import '../../hashtag/widget/hashtag_item.dart';
+import 'bloc/create_quote_bloc.dart';
 
-class HashtagListWidget extends StatelessWidget {
+class HashtagsScreen extends StatelessWidget {
   final Function(IdValue)? onSelectHashTag;
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return BlocConsumer<HashtagBloc, HashtagState>(
+    return BlocConsumer<CreateQuoteBloc, CreateQuoteState>(
       builder: (context, state) {
-        var bloc = context.read<HashtagBloc>();
+        var bloc = context.read<CreateQuoteBloc>();
         return Container(
+          margin: EdgeInsets.only(top: 12),
           padding: EdgeInsets.all(12),
           alignment: Alignment.center,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(16),
               color: Colors.white.withAlpha(6)),
           child: GridView.count(
               primary: false,
@@ -50,7 +48,7 @@ class HashtagListWidget extends StatelessWidget {
     );
   }
 
-  const HashtagListWidget({
+  HashtagsScreen({
     this.onSelectHashTag,
   });
 }

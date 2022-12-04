@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:admin/domain/models/state/domain_result.dart';
-import 'package:admin/models/id_value.dart';
+import 'package:admin/domain/models/ui/id_value.dart';
 import 'package:admin/utils/controller.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';

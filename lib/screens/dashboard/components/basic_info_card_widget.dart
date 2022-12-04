@@ -1,9 +1,9 @@
-import 'package:admin/models/statistics_info.dart';
 import 'package:admin/utils/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../constants.dart';
+import '../../../domain/models/ui/statistics_info.dart';
 
 class BasicInfoCard extends StatelessWidget {
   const BasicInfoCard({

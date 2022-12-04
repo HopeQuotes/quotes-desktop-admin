@@ -1,13 +1,15 @@
 import 'dart:async';
 
 import 'package:admin/domain/models/state/domain_result.dart';
-import 'package:admin/models/id_value.dart';
+import 'package:admin/domain/models/ui/id_value.dart';
+import 'package:admin/domain/models/ui/quote.dart';
 import 'package:admin/utils/controller.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../domain/models/ui/image.dart';
 import '../../../../domain/repository/abstraction/create_quote_repository.dart';
 
 part 'create_quote_event.dart';
@@ -27,6 +29,8 @@ class CreateQuoteBloc extends Bloc<CreateQuoteEvent, CreateQuoteState> {
     on<RemoteHashTag>(_deleteHashtag);
     on<AddHashTag>(_addHashtag);
     on<LoadHashTags>(_loadHashtags);
+    on<LoadImages>(_loadImages);
+    on<SetSelectedImageId>(_setSelectedImage);
 
     hashtagScrollController.onBottomReached(() {
       if (!endOfPaginationReached) {
@@ -34,6 +38,11 @@ class CreateQuoteBloc extends Bloc<CreateQuoteEvent, CreateQuoteState> {
         add(LoadHashTags());
       }
     });
+  }
+
+  Future<void> _setSelectedImage(
+      SetSelectedImageId event, Emitter emitter) async {
+    return emitter(state.copyWith(selectedImageId: event.id));
   }
 
   Future<void> _deleteHashtag(RemoteHashTag event, Emitter emitter) async {
@@ -56,19 +65,22 @@ class CreateQuoteBloc extends Bloc<CreateQuoteEvent, CreateQuoteState> {
 
   Future<void> _createQuote(CreateQuote event, Emitter emitter) async {
     return emitter.forEach<DomainResult>(
-        _repository.createQuote(authorController.text, bodyController.text,
-            (state.userHashtags ?? []).map((e) => e.id).toList()),
-        onData: (data) {
+        _repository.createQuote(
+            authorController.text,
+            bodyController.text,
+            (state.userHashtags ?? []).map((e) => e.id).toList(),
+            state.selectedImageId ?? ""), onData: (data) {
       if (data is DomainSuccess) {
         return state.copyWith(
-            status: CreateQuoteStatus.success, message: data.message);
+            createQuoteStatus: CreateQuoteStatus.success,
+            message: data.message);
       }
       if (data is DomainError) {
         return state.copyWith(
-            status: CreateQuoteStatus.fail, message: data.message);
+            createQuoteStatus: CreateQuoteStatus.fail, message: data.message);
       }
       if (data is DomainLoading) {
-        return state.copyWith(status: CreateQuoteStatus.loading);
+        return state.copyWith(createQuoteStatus: CreateQuoteStatus.loading,message: "Creating quote...");
       }
       return state;
     });
@@ -92,6 +104,24 @@ class CreateQuoteBloc extends Bloc<CreateQuoteEvent, CreateQuoteState> {
       if (data is DomainError) {
         return state.copyWith(
             hashTagPagingStatus: HashTagPagingStatus.failPaging);
+      }
+      return state;
+    });
+  }
+
+  Future<void> _loadImages(LoadImages event, Emitter emitter) async {
+    return emitter.forEach<DomainResult>(_repository.getImages(),
+        onData: (data) {
+      if (data is DomainLoading) {
+        return state.copyWith(imageStatus: ImageStatus.loading);
+      }
+      if (data is DomainSuccess<List<QuoteImage>>) {
+        return state.copyWith(
+            imageStatus: ImageStatus.success,
+            images: (state.images ?? []) + (data.data ?? []));
+      }
+      if (data is DomainError) {
+        return state.copyWith(imageStatus: ImageStatus.fail,message: data.message);
       }
       return state;
     });

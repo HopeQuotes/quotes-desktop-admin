@@ -8,9 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../dashboard/quotes/quotes_screen.dart';
+import '../../settings/settings_screen.dart';
 
 class SideMenu extends StatelessWidget {
-  Function(Widget) _onSelectMenu;
+  final Function(Widget) _onSelectMenu;
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +55,13 @@ class SideMenu extends StatelessWidget {
             svgSrc: "assets/icons/menu_dashbord.svg",
             press: () {
               _onSelectMenu.call(HashtagScreen());
+            },
+          ),
+          DrawerListTile(
+            title: "Settings",
+            svgSrc: "assets/icons/menu_dashbord.svg",
+            press: () {
+              _onSelectMenu.call(SettingsScreen());
             },
           ),
         ],

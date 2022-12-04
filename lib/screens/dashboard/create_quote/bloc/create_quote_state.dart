@@ -9,37 +9,59 @@ enum HashTagPagingStatus {
   initialPaging
 }
 
+enum ImageStatus { success, fail, loading, initial }
+
 class CreateQuoteState extends Equatable {
-  final CreateQuoteStatus? status;
+  final CreateQuoteStatus? createQuoteStatus;
+  final ImageStatus? imageStatus;
   final List<IdValue>? hashtags;
+  final List<QuoteImage>? images;
   final List<IdValue>? userHashtags;
   final String? message;
   final HashTagPagingStatus? hashTagPagingStatus;
+  final String? selectedImageId;
 
   @override
-  List<Object?> get props =>
-      [status, hashtags, message, hashTagPagingStatus, userHashtags];
+  List<Object?> get props => [
+        createQuoteStatus,
+        hashtags,
+        message,
+        hashTagPagingStatus,
+        userHashtags,
+        imageStatus,
+        images,
+        selectedImageId
+      ];
 
   const CreateQuoteState(
-      {this.status,
+      {this.createQuoteStatus,
       this.hashtags,
       this.message,
       this.hashTagPagingStatus,
+      this.images,
+      this.selectedImageId,
+      this.imageStatus,
       this.userHashtags});
 
   CreateQuoteState copyWith({
-    CreateQuoteStatus? status,
+    CreateQuoteStatus? createQuoteStatus,
+    ImageStatus? imageStatus,
     List<IdValue>? hashtags,
+    List<QuoteImage>? images,
     List<IdValue>? userHashtags,
     String? message,
     HashTagPagingStatus? hashTagPagingStatus,
+    String? selectedImageId,
   }) {
     return CreateQuoteState(
-      status: status ?? this.status,
+      createQuoteStatus: createQuoteStatus ?? this.createQuoteStatus,
+      imageStatus: imageStatus ?? this.imageStatus,
       hashtags: hashtags ?? this.hashtags,
+      images: images ?? this.images,
       userHashtags: userHashtags ?? this.userHashtags,
       message: message ?? this.message,
       hashTagPagingStatus: hashTagPagingStatus ?? this.hashTagPagingStatus,
+      selectedImageId: selectedImageId ?? this.selectedImageId,
     );
   }
 }

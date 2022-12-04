@@ -1,3 +1,6 @@
+import 'package:admin/domain/models/id_value_data_response.dart';
+import 'package:admin/domain/models/response/quote_state_response.dart';
+import 'package:admin/screens/dashboard/quotes/bloc/quotes_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'quote_response.g.dart';
@@ -17,10 +20,10 @@ class QuotesResponse {
 @JsonSerializable()
 class QuoteResponse {
   String id;
-  String state;
+  QuoteStateResponse state;
   String author;
   String text;
-  List<String> hashtags;
+  List<IdValueDataResponse> hashtags;
 
   QuoteResponse({
     required this.id,
