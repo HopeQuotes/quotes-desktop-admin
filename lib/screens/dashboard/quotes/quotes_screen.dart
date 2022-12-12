@@ -21,46 +21,52 @@ class QuotesScreen extends StatelessWidget {
         child: BlocConsumer<QuotesBloc, QuotesState>(
           builder: (context, state) {
             final bloc = context.read<QuotesBloc>();
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.all(24),
-                        child: Text(
-                          'Quotes',
-                          style: getTextStyle(size: 24),
+            if (state.quotesPagingStatus != QuotesPagingStatus.success) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.all(24),
+                          child: Text(
+                            'Quotes',
+                            style: getTextStyle(size: 24),
+                          ),
+                        ),
+                        Spacer(),
+                      ],
+                    ),
+                    if (state.quotes?.isNotEmpty == true &&
+                        state.quoteStates?.isNotEmpty == true)
+                      GridView.builder(
+                        padding: EdgeInsets.all(12),
+                        shrinkWrap: true,
+                        itemCount: state.quotes?.length,
+                        controller: bloc.hashtagScrollController,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4,
+                          childAspectRatio: 1.1,
+                          crossAxisSpacing: defaultPadding,
+                          mainAxisSpacing: defaultPadding,
+                        ),
+                        itemBuilder: (context, index) => QuoteItemWidget(
+                          quote: state.quotes![index],
+                          states: state.quoteStates ?? [],
+                          onQuoteStateUpdated: (quote, newState) {
+                            bloc.add(SetQuoteState(
+                                stateId: newState.id, quoteId: quote.id));
+                          },
                         ),
                       ),
-                      Spacer(),
-                    ],
-                  ),
-                  if (state.quotes?.isNotEmpty == true &&
-                      state.quoteStates?.isNotEmpty == true)
-                    GridView.builder(
-                      padding: EdgeInsets.all(12),
-                      shrinkWrap: true,
-                      itemCount: state.quotes?.length,
-                      controller: bloc.hashtagScrollController,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
-                        childAspectRatio: 1.1,
-                        crossAxisSpacing: defaultPadding,
-                        mainAxisSpacing: defaultPadding,
-                      ),
-                      itemBuilder: (context, index) => QuoteItemWidget(
-                        quote: state.quotes![index],
-                        states: state.quoteStates ?? [],
-                        onQuoteStateUpdated: (quote, newState) {
-                          bloc.add(SetQuoteState(
-                              stateId: newState.id, quoteId: quote.id));
-                        },
-                      ),
-                    ),
-                ],
-              ),
-            );
+                  ],
+                ),
+              );
+            }
           },
           listener: (context, state) {
             //

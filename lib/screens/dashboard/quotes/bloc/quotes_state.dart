@@ -3,6 +3,7 @@ part of 'quotes_bloc.dart';
 enum QuotesPagingStatus {
   initialPaging,
   success,
+  loading,
   fail,
 }
 
@@ -22,8 +23,6 @@ class QuotesState extends Equatable {
   @override
   List<Object?> get props =>
       [quotesPagingStatus, quoteUpdateStateStatus, quotes, quoteStates];
-
-
 
   QuotesState copyWith({
     QuotesPagingStatus? quotesPagingStatus,
