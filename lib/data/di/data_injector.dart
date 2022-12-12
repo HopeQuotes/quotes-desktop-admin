@@ -4,6 +4,6 @@ import 'package:path_provider/path_provider.dart';
 import '../../di/injector.dart';
 import '../api/dio.dart';
 
-void initDataDependencies() async {
+Future<void> initDataDependencies() async {
   Hive.init((await getApplicationDocumentsDirectory()).path);
 }

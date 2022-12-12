@@ -4,10 +4,12 @@ import 'package:admin/screens/auth/login_screen.dart';
 import 'package:admin/screens/entrance/splash_screen.dart';
 import 'package:admin/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:temu_interceptor/navigation/navigator.dart';
 
 void main() {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
   initDependencies();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -15,6 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: NavigationService.navigatorKey,
       title: 'Quote admin',
       debugShowCheckedModeBanner: false,
       home: Material(

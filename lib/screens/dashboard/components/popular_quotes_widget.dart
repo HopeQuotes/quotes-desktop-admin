@@ -70,7 +70,7 @@ DataRow recentFileDataRow(Quote fileInfo) {
           ],
         ),
       ),
-      DataCell(Text(fileInfo.state)),
+      DataCell(Text(fileInfo.state.value)),
       DataCell(Text(fileInfo.text)),
     ],
   );

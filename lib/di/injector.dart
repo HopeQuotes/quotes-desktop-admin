@@ -12,9 +12,9 @@ import '../data/cache/adapters.dart';
 
 GetIt injector = GetIt.instance;
 
-void initDependencies() {
+void initDependencies() async {
+  await initDataDependencies();
   registerAdapters();
-  initDataDependencies();
   initDomainDependencies();
   injector.registerFactory<AuthBloc>(() => AuthBloc(injector()));
   injector.registerFactory<SplashBloc>(() => SplashBloc(injector()));

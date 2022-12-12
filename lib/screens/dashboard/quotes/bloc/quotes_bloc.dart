@@ -22,6 +22,8 @@ class QuotesBloc extends Bloc<QuotesEvent, QuotesState> {
 
   QuotesBloc(this._repository) : super(QuotesState()) {
     on<LoadQuotes>(_loadQuotes);
+    on<GetQuoteStates>(_loadQuoteStates);
+    on<SetQuoteState>(_setQuoteState);
 
     hashtagScrollController.onBottomReached(() {
       if (!endOfPaginationReached) {
@@ -43,6 +45,24 @@ class QuotesBloc extends Bloc<QuotesEvent, QuotesState> {
       if (data is DomainError) {
         return state.copyWith(quotesPagingStatus: QuotesPagingStatus.fail);
       }
+      return state;
+    });
+  }
+
+  Future<void> _loadQuoteStates(GetQuoteStates event, Emitter emitter) async {
+    return emitter.forEach<DomainResult>(_repository.getQuoteStates(),
+        onData: (data) {
+      if (data is DomainSuccess<List<QuoteState>>) {
+        return state.copyWith(quoteStates: data.data);
+      }
+      return state;
+    });
+  }
+
+  Future<void> _setQuoteState(SetQuoteState event, Emitter emitter) async {
+    return emitter.forEach<DomainResult>(
+        _repository.setQuoteState(event.stateId, event.quoteId),
+        onData: (data) {
       return state;
     });
   }

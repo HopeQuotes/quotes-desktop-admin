@@ -15,7 +15,9 @@ class QuotesScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: primaryColor,
       body: BlocProvider(
-        create: (_) => QuotesBloc(injector())..add(LoadQuotes()),
+        create: (_) => QuotesBloc(injector())
+          ..add(GetQuoteStates())
+          ..add(LoadQuotes()),
         child: BlocConsumer<QuotesBloc, QuotesState>(
           builder: (context, state) {
             final bloc = context.read<QuotesBloc>();
@@ -34,7 +36,8 @@ class QuotesScreen extends StatelessWidget {
                       Spacer(),
                     ],
                   ),
-                  if (state.quotes?.isNotEmpty == true)
+                  if (state.quotes?.isNotEmpty == true &&
+                      state.quoteStates?.isNotEmpty == true)
                     GridView.builder(
                       padding: EdgeInsets.all(12),
                       shrinkWrap: true,
@@ -48,6 +51,11 @@ class QuotesScreen extends StatelessWidget {
                       ),
                       itemBuilder: (context, index) => QuoteItemWidget(
                         quote: state.quotes![index],
+                        states: state.quoteStates ?? [],
+                        onQuoteStateUpdated: (quote, newState) {
+                          bloc.add(SetQuoteState(
+                              stateId: newState.id, quoteId: quote.id));
+                        },
                       ),
                     ),
                 ],

@@ -1,53 +1,38 @@
+import 'package:admin/utils/color.dart';
 import 'package:admin/utils/fonts.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../constants.dart';
 import '../../../../domain/models/ui/quote.dart';
 
 class QuoteItemWidget extends StatefulWidget {
-  final Quote _quote;
+  final Quote quote;
+  final List<QuoteState> states;
+  final Function(Quote, QuoteState) onQuoteStateUpdated;
 
   @override
   State<QuoteItemWidget> createState() => _QuoteItemWidgetState();
 
   const QuoteItemWidget({
-    required Quote quote,
-  }) : _quote = quote;
+    required this.quote,
+    required this.states,
+    required this.onQuoteStateUpdated,
+  });
 }
 
 class _QuoteItemWidgetState extends State<QuoteItemWidget>
     with TickerProviderStateMixin {
   late TabController _tabController;
-  var stateIndex = -1;
+
+  var stateIndex = 0;
 
   @override
   void initState() {
     _tabController = TabController(length: 3, vsync: this);
-    if (widget._quote.state == "pending") {
-      stateIndex = 1;
-    }
-
-    if (widget._quote.state == "verified") {
-      stateIndex = 0;
-    }
-
-    if (widget._quote.state == "rejected") {
-      stateIndex = 2;
-    }
+    stateIndex = widget.states
+        .indexWhere((element) => element.id == widget.quote.state.id);
     _tabController.animateTo(stateIndex);
 
     super.initState();
-  }
-
-  Color _getColorByState() {
-    if (stateIndex == 0) {
-      return Colors.green;
-    }
-    if (stateIndex == 1) {
-      return Colors.white.withAlpha(100);
-    }
-    return primaryRedColor;
   }
 
   @override
@@ -58,7 +43,7 @@ class _QuoteItemWidgetState extends State<QuoteItemWidget>
           ListTile(
             title: Container(
               child: Text(
-                widget._quote.author,
+                widget.quote.author,
                 style:
                     getTextStyle(color: Colors.white.withAlpha(200), size: 16),
               ),
@@ -66,7 +51,7 @@ class _QuoteItemWidgetState extends State<QuoteItemWidget>
             ),
             subtitle: Container(
               child: Text(
-                widget._quote.text,
+                widget.quote.text,
                 style:
                     getTextStyle(color: Colors.white.withAlpha(200), size: 14),
               ),
@@ -82,6 +67,8 @@ class _QuoteItemWidgetState extends State<QuoteItemWidget>
                 setState(() {
                   stateIndex = index;
                 });
+                widget.onQuoteStateUpdated
+                    .call(widget.quote, widget.states[stateIndex]);
               },
               labelStyle: getTextStyle(size: 12),
               splashBorderRadius: BorderRadius.circular(16),
@@ -90,22 +77,16 @@ class _QuoteItemWidgetState extends State<QuoteItemWidget>
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  color: _getColorByState()),
+                  color: HexColor.fromHex(widget.states[stateIndex].color)),
               isScrollable: false,
-              tabs: [
-                Tab(
-                  height: 32,
-                  text: 'verified',
-                ),
-                Tab(
-                  height: 32,
-                  text: 'pending',
-                ),
-                Tab(
-                  height: 32,
-                  text: 'rejected',
-                ),
-              ],
+              tabs: widget.states
+                  .map(
+                    (e) => Tab(
+                      height: 32,
+                      text: e.value,
+                    ),
+                  )
+                  .toList(),
             ),
           ),
         ],

@@ -16,22 +16,20 @@ class QuotesState extends Equatable {
   final QuotesPagingStatus? quotesPagingStatus;
   final QuoteUpdateStateStatus? quoteUpdateStateStatus;
   final List<Quote>? quotes;
+  final List<QuoteState>? quoteStates;
   final String? message;
 
   @override
   List<Object?> get props =>
-      [quotesPagingStatus, quoteUpdateStateStatus, quotes];
+      [quotesPagingStatus, quoteUpdateStateStatus, quotes, quoteStates];
 
-  const QuotesState(
-      {this.quotesPagingStatus,
-      this.quoteUpdateStateStatus,
-      this.message,
-      this.quotes});
+
 
   QuotesState copyWith({
     QuotesPagingStatus? quotesPagingStatus,
     QuoteUpdateStateStatus? quoteUpdateStateStatus,
     List<Quote>? quotes,
+    List<QuoteState>? quoteStates,
     String? message,
   }) {
     return QuotesState(
@@ -39,7 +37,16 @@ class QuotesState extends Equatable {
       quoteUpdateStateStatus:
           quoteUpdateStateStatus ?? this.quoteUpdateStateStatus,
       quotes: quotes ?? this.quotes,
+      quoteStates: quoteStates ?? this.quoteStates,
       message: message ?? this.message,
     );
   }
+
+  const QuotesState({
+    this.quotesPagingStatus,
+    this.quoteUpdateStateStatus,
+    this.quotes,
+    this.quoteStates,
+    this.message,
+  });
 }

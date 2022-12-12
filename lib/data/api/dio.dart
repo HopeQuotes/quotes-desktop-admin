@@ -81,6 +81,18 @@ class DioClient {
         options: options,
         cancelToken: cancelToken);
   }
+
+  Future<Response<T>> patch<T>(
+    String path, {
+    data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) {
+    return _dio.patch(path, data: data, queryParameters: queryParameters);
+  }
 }
 
 class AuthInterceptor extends Interceptor {
