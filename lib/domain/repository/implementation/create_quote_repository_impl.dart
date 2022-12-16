@@ -32,8 +32,8 @@ class CreateQuoteRepositoryImpl extends QuoteRepository {
       } else {
         var response = await _client.post('v1/quote',
             data: CreateQuoteRequest(
-                    author: author,
-                    text: body,
+                    author: author.trim(),
+                    text: body.trim(),
                     hashtagIds: hashtags,
                     photoId: photoId)
                 .toJson());
