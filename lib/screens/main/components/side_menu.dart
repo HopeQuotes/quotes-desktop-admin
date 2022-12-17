@@ -1,14 +1,14 @@
 import 'package:admin/constants.dart';
-import 'package:admin/screens/dashboard/create_quote/quote_create_screen.dart';
 import 'package:admin/screens/dashboard/dashboard_screen.dart';
-import 'package:admin/screens/dashboard/users/users_screen.dart';
 import 'package:admin/screens/hashtag/hashtag_screen.dart';
 import 'package:admin/utils/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../dashboard/quotes/quotes_screen.dart';
+import '../../create_quote/quote_create_screen.dart';
+import '../../quotes/quotes_screen.dart';
 import '../../settings/settings_screen.dart';
+import '../../users/users_screen.dart';
 
 class SideMenu extends StatelessWidget {
   final Function(Widget) _onSelectMenu;
@@ -20,46 +20,51 @@ class SideMenu extends StatelessWidget {
       child: ListView(
         children: [
           DrawerHeader(
-            child: Image.asset("assets/images/logo.png"),
+            child: Center(
+              child: Text(
+                "Quotes admin",
+                style: getTextStyle(size: 20),
+              ),
+            ),
           ),
           DrawerListTile(
             title: "Dashboard",
-            svgSrc: "assets/icons/menu_dashbord.svg",
+            icon: Icons.dashboard,
             press: () {
               _onSelectMenu.call(DashboardScreen());
             },
           ),
           DrawerListTile(
             title: "Quotes",
-            svgSrc: "assets/icons/menu_dashbord.svg",
+            icon: Icons.menu_book_sharp,
             press: () {
               _onSelectMenu.call(QuotesScreen());
             },
           ),
           DrawerListTile(
             title: "Users",
-            svgSrc: "assets/icons/menu_dashbord.svg",
+            icon: Icons.supervised_user_circle,
             press: () {
               _onSelectMenu.call(UsersScreen());
             },
           ),
           DrawerListTile(
             title: "Create",
-            svgSrc: "assets/icons/menu_dashbord.svg",
+            icon: Icons.add,
             press: () {
               _onSelectMenu.call(QuoteCreateScreen());
             },
           ),
           DrawerListTile(
             title: "Hashtag",
-            svgSrc: "assets/icons/menu_dashbord.svg",
+            icon: Icons.tag,
             press: () {
               _onSelectMenu.call(HashtagScreen());
             },
           ),
           DrawerListTile(
             title: "Settings",
-            svgSrc: "assets/icons/menu_dashbord.svg",
+            icon: Icons.settings,
             press: () {
               _onSelectMenu.call(SettingsScreen());
             },
@@ -79,11 +84,12 @@ class DrawerListTile extends StatelessWidget {
     Key? key,
     // For selecting those three line once press "Command+D"
     required this.title,
-    required this.svgSrc,
+    required this.icon,
     required this.press,
   }) : super(key: key);
 
-  final String title, svgSrc;
+  final String title;
+  final IconData icon;
   final VoidCallback press;
 
   @override
@@ -91,10 +97,9 @@ class DrawerListTile extends StatelessWidget {
     return ListTile(
       onTap: press,
       horizontalTitleGap: 0.0,
-      leading: SvgPicture.asset(
-        svgSrc,
+      leading: Icon(
+        icon,
         color: Colors.white,
-        height: 16,
       ),
       title: Text(
         title,

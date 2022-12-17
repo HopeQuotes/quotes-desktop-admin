@@ -1,17 +1,19 @@
+import 'dart:io';
+
 import 'package:admin/common_widgets/button_widget.dart';
 import 'package:admin/constants.dart';
 import 'package:admin/di/injector.dart';
-import 'package:admin/screens/dashboard/create_quote/bloc/create_quote_bloc.dart';
-import 'package:admin/screens/hashtag/hashtag_list_widget.dart';
+import 'package:admin/dialogs/content_split_by_enter_dialog.dart';
 import 'package:admin/utils/array.dart';
 import 'package:admin/utils/fonts.dart';
 import 'package:admin/utils/print.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common_widgets/chip_item_widget.dart';
 import '../../../common_widgets/input_widget.dart';
+import 'bloc/create_quote_bloc.dart';
 import 'create_quote_data_tabs_widget.dart';
 
 class QuoteCreateScreen extends StatelessWidget {
@@ -69,42 +71,94 @@ class QuoteCreateScreen extends StatelessWidget {
                         ),
                       ),
                       Container(
-                          alignment: Alignment.topLeft,
-                          width: size.width / 2,
-                          margin: const EdgeInsets.all(16),
-                          child: RichText(
-                            textAlign: TextAlign.start,
-                            text: TextSpan(
-                              children: [
-                                ...(state.userHashtags ?? []).mapIndexed(
-                                  (index, e) => WidgetSpan(
-                                    child: ChipItem(
-                                      text: e.value,
-                                      onDelete: (index) {
-                                        bloc.add(RemoteHashTag(hashtag: e));
-                                      },
-                                      index: index,
-                                    ),
+                        alignment: Alignment.topLeft,
+                        margin: const EdgeInsets.all(16),
+                        child: RichText(
+                          textAlign: TextAlign.start,
+                          text: TextSpan(
+                            children: [
+                              ...(state.userHashtags ?? []).mapIndexed(
+                                (index, e) => WidgetSpan(
+                                  child: ChipItem(
+                                    text: e.value,
+                                    onDelete: (index) {
+                                      bloc.add(RemoteHashTag(hashtag: e));
+                                    },
+                                    index: index,
                                   ),
                                 ),
-                              ],
-                            ),
-                          )),
-                      Container(
-                        padding: EdgeInsets.all(24),
-                        alignment: Alignment.centerRight,
-                        child: Button(
-                          width: 152,
-                          height: 56,
-                          disabled: state.createQuoteStatus ==
-                              CreateQuoteStatus.loading,
-                          title: 'Create',
-                          onClick: () {
-                            bloc.add(CreateQuote());
-                          },
+                              ),
+                            ],
+                          ),
                         ),
-                        width: size.width / 2,
-                      )
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Spacer(),
+                          Container(
+                            padding: EdgeInsets.all(24),
+                            alignment: Alignment.centerRight,
+                            child: Button(
+                              width: 152,
+                              margin: EdgeInsets.all(0),
+                              height: 56,
+                              animate: false,
+                              disabled: state.createQuoteStatus ==
+                                  CreateQuoteStatus.loading,
+                              title: 'Choose file',
+                              onClick: () async {
+                                FilePickerResult? result =
+                                    await FilePicker.platform.pickFiles(
+                                        type: FileType.custom,
+                                        allowedExtensions: ["txt"]);
+
+                                if (result != null) {
+                                  showSelectContentSplitByDialog(context,
+                                      result: (splitBy) {
+                                    bloc.add(AnalyzeFile(
+                                        path: result.files.single.path ?? "",
+                                        splitBy: splitBy));
+                                  });
+                                }
+                                // bloc.add(CreateQuotes());
+                              },
+                            ),
+                          ),
+                          Container(
+
+                            padding: EdgeInsets.all(24),
+                            alignment: Alignment.centerRight,
+                            child: Button(
+                              margin: EdgeInsets.only(right: 24),
+                              width: 172,
+                              height: 56,
+                              disabled: state.createQuoteStatus ==
+                                  CreateQuoteStatus.loading,
+                              title: 'Create from content',
+                              onClick: () {
+                                bloc.add(CreateQuotes());
+                              },
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(24),
+                            alignment: Alignment.centerRight,
+                            child: Button(
+                              margin: EdgeInsets.only(right: 24),
+                              width: 152,
+                              height: 56,
+                              disabled: state.createQuoteStatus ==
+                                  CreateQuoteStatus.loading,
+                              title: 'Create',
+                              onClick: () {
+                                bloc.add(CreateQuote());
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),

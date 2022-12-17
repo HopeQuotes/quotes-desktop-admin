@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../domain/models/ui/image.dart';
-import '../../../../domain/repository/abstraction/create_quote_repository.dart';
+import '../../../../domain/repository/abstraction/quote_repository.dart';
 
 part 'create_quote_event.dart';
 
@@ -26,11 +26,13 @@ class CreateQuoteBloc extends Bloc<CreateQuoteEvent, CreateQuoteState> {
 
   CreateQuoteBloc(this._repository) : super(CreateQuoteState()) {
     on<CreateQuote>(_createQuote);
+    on<CreateQuotes>(_createQuotes);
     on<RemoteHashTag>(_deleteHashtag);
     on<AddHashTag>(_addHashtag);
     on<LoadHashTags>(_loadHashtags);
     on<LoadImages>(_loadImages);
     on<SetSelectedImageId>(_setSelectedImage);
+    on<AnalyzeFile>(_analyzeFile);
 
     hashtagScrollController.onBottomReached(() {
       if (!endOfPaginationReached) {
@@ -43,6 +45,17 @@ class CreateQuoteBloc extends Bloc<CreateQuoteEvent, CreateQuoteState> {
   Future<void> _setSelectedImage(
       SetSelectedImageId event, Emitter emitter) async {
     return emitter(state.copyWith(selectedImageId: event.id));
+  }
+
+  Future<void> _analyzeFile(AnalyzeFile event, Emitter emitter) async {
+    return emitter.forEach<DomainResult>(
+        _repository.analyzeQuotesFile(event.path, event.splitBy),
+        onData: (data) {
+      if (data is DomainSuccess<List<String>>) {
+        return state.copyWith(fileContent: data.data);
+      }
+      return state;
+    });
   }
 
   Future<void> _deleteHashtag(RemoteHashTag event, Emitter emitter) async {
@@ -80,7 +93,34 @@ class CreateQuoteBloc extends Bloc<CreateQuoteEvent, CreateQuoteState> {
             createQuoteStatus: CreateQuoteStatus.fail, message: data.message);
       }
       if (data is DomainLoading) {
-        return state.copyWith(createQuoteStatus: CreateQuoteStatus.loading,message: "Creating quote...");
+        return state.copyWith(
+            createQuoteStatus: CreateQuoteStatus.loading,
+            message: "Creating quote...");
+      }
+      return state;
+    });
+  }
+
+  Future<void> _createQuotes(CreateQuotes event, Emitter emitter) async {
+    return emitter.forEach<DomainResult>(
+        _repository.createQuotes(
+            authorController.text,
+            state.userHashtags ?? [],
+            state.selectedImageId ?? "",
+            state.fileContent ?? []), onData: (data) {
+      if (data is DomainSuccess) {
+        return state.copyWith(
+            createQuoteStatus: CreateQuoteStatus.success,
+            message: data.message);
+      }
+      if (data is DomainError) {
+        return state.copyWith(
+            createQuoteStatus: CreateQuoteStatus.fail, message: data.message);
+      }
+      if (data is DomainLoading) {
+        return state.copyWith(
+            createQuoteStatus: CreateQuoteStatus.loading,
+            message: data.message);
       }
       return state;
     });
@@ -121,7 +161,8 @@ class CreateQuoteBloc extends Bloc<CreateQuoteEvent, CreateQuoteState> {
             images: (state.images ?? []) + (data.data ?? []));
       }
       if (data is DomainError) {
-        return state.copyWith(imageStatus: ImageStatus.fail,message: data.message);
+        return state.copyWith(
+            imageStatus: ImageStatus.fail, message: data.message);
       }
       return state;
     });

@@ -18,4 +18,10 @@ class DomainError extends DomainResult {
   });
 }
 
-class DomainLoading extends DomainResult {}
+class DomainLoading extends DomainResult {
+  String? message;
+
+  DomainLoading({
+    this.message,
+  });
+}

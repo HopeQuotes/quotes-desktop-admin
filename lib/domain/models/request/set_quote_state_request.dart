@@ -1,4 +1,3 @@
-import 'package:admin/screens/dashboard/quotes/bloc/quotes_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'set_quote_state_request.g.dart';

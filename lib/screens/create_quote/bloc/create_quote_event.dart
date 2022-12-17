@@ -5,6 +5,20 @@ abstract class CreateQuoteEvent {}
 
 class CreateQuote extends CreateQuoteEvent {}
 
+class CreateQuotes extends CreateQuoteEvent {
+
+}
+
+class AnalyzeFile extends CreateQuoteEvent {
+  final String path;
+  final String splitBy;
+
+  AnalyzeFile({
+    required this.path,
+    required this.splitBy,
+  });
+}
+
 class AddHashTag extends CreateQuoteEvent {
   final IdValue hashtag;
 

@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:admin/data/api/dio.dart';
 import 'package:admin/domain/mappers/ui/id_value_mapper.dart';
@@ -6,7 +8,9 @@ import 'package:admin/domain/mappers/ui/image_mapper.dart';
 import 'package:admin/domain/models/request/create_quote_request.dart';
 import 'package:admin/domain/models/state/domain_result.dart';
 import 'package:admin/domain/models/ui/image.dart';
-import 'package:admin/domain/repository/abstraction/create_quote_repository.dart';
+import 'package:admin/domain/models/ui/quote.dart';
+import 'package:admin/domain/repository/abstraction/quote_repository.dart';
+import 'package:flutter/scheduler.dart';
 
 import '../../models/base/base_response.dart';
 import '../../models/response/hashtags_response.dart';
@@ -26,9 +30,9 @@ class CreateQuoteRepositoryImpl extends QuoteRepository {
       print(hashtags);
       print(photoId);
       if (author.trim().isEmpty || body.isEmpty || hashtags.isEmpty) {
-        yield DomainError(message: 'Malumotlarni oxirigacha toldiring !');
+        yield DomainError(message: 'Заполните все данные !');
       } else if (photoId.isEmpty) {
-        yield DomainError(message: 'Rasmni tanlang');
+        yield DomainError(message: 'Выберите рисунок !');
       } else {
         var response = await _client.post('v1/quote',
             data: CreateQuoteRequest(
@@ -38,13 +42,13 @@ class CreateQuoteRepositoryImpl extends QuoteRepository {
                     photoId: photoId)
                 .toJson());
         if (response.statusCode == 200) {
-          yield DomainSuccess(message: "Quote created !");
+          yield DomainSuccess(message: "Цитата успешно создана !");
         } else {
-          yield DomainError(message: 'Xatolik yuz berdi...');
+          yield DomainError(message: 'Что то пошло не так...');
         }
       }
     } catch (e) {
-      yield DomainError(message: "Kutilmagan xatolik yuz berdi");
+      yield DomainError(message: "Что то пошло не так");
     }
   }
 
@@ -59,7 +63,7 @@ class CreateQuoteRepositoryImpl extends QuoteRepository {
       yield DomainSuccess<List<IdValue>>(
           data: decoded.data.data.map((e) => e.toUi()).toList());
     } catch (e) {
-      yield DomainError(message: 'Something went wrong...');
+      yield DomainError(message: 'Что то пошло не так...');
     }
   }
 
@@ -87,11 +91,52 @@ class CreateQuoteRepositoryImpl extends QuoteRepository {
           data: decoded.data.data.map((e) => e.toUi()).toList());
     } catch (e) {
       print(e);
-      yield DomainError(message: 'Something went wrong...');
+      yield DomainError(message: 'Что то пошло не так...');
     }
   }
 
   CreateQuoteRepositoryImpl({
     required DioClient client,
   }) : _client = client;
+
+  @override
+  Stream<DomainResult> createQuotes(String author, List<IdValue> hashtags,
+      String photoId, List<String> contents) async* {
+    try {
+      yield DomainLoading(message: "Подготовка к отправке...");
+      if (author.trim().isEmpty || contents.isEmpty || hashtags.isEmpty) {
+        yield DomainError(message: 'Заполните все данные !');
+      } else if (photoId.isEmpty) {
+        yield DomainError(message: 'Выберите рисунок !');
+      } else {
+        await Future.delayed(Duration(seconds: 2));
+        yield DomainLoading(message: "Отправка началось...");
+        var synced = 0;
+        for(int i = 0; i < contents.length; i++) {
+          await Future.delayed(Duration(seconds: 3));
+          await _client.post('v1/quote',
+              data: CreateQuoteRequest(
+                  author: author.trim(),
+                  text: contents[i].trim(),
+                  hashtagIds: hashtags.map((e) => e.id).toList(),
+                  photoId: photoId)
+                  .toJson());
+          synced++;
+          yield DomainLoading(message: "Отправлено $synced из ${contents.length}");
+        }
+        yield DomainSuccess();
+      }
+    } catch (e) {
+      yield DomainError(message: 'Что то пошло не так...');
+    }
+  }
+
+  @override
+  Stream<DomainResult> analyzeQuotesFile(String path, String splitBy) async* {
+    var file = File(path);
+    var content = await file.readAsString();
+    print(content);
+    var splitted = content.split(splitBy);
+    yield DomainSuccess(data: splitted);
+  }
 }

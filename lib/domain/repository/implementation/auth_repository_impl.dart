@@ -33,7 +33,7 @@ class AuthRepositoryImpl extends AuthRepository {
 
         var decoded = BaseResponse<UserResponse>.fromJson(
             jsonDecode(response.data), (p0) => UserResponse.fromJson(p0));
-        await saveUser(decoded.data.toUi());
+        await saveUser(decoded.data.toCache());
 
         yield DomainSuccess();
       }
@@ -43,8 +43,8 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<void> saveUser(User user) async {
+  Future<void> saveUser(UserCache user) async {
     await (await getBox<UserCache>(HiveKeys.profile))
-        .put(HiveKeys.profile, user.toCache());
+        .put(HiveKeys.profile, user);
   }
 }

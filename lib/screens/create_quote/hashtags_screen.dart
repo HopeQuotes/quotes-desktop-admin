@@ -1,15 +1,13 @@
-import 'package:admin/domain/models/ui/image.dart';
-import 'package:admin/screens/dashboard/create_quote/bloc/create_quote_bloc.dart';
-import 'package:admin/screens/dashboard/create_quote/widgets/quote_image_item_widget.dart';
-import 'package:admin/utils/fonts.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:admin/domain/models/ui/id_value.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../hashtag/widget/hashtag_item.dart';
+import '../hashtag/widget/hashtag_item.dart';
+import 'bloc/create_quote_bloc.dart';
 
-class ImagesScreen extends StatelessWidget {
-  final Function(QuoteImage)? onSelectImage;
+class HashtagsScreen extends StatelessWidget {
+  final Function(IdValue)? onSelectHashTag;
 
   @override
   Widget build(BuildContext context) {
@@ -28,17 +26,17 @@ class ImagesScreen extends StatelessWidget {
               primary: false,
               padding: const EdgeInsets.all(20),
               crossAxisSpacing: 10,
-              childAspectRatio: 1,
+              childAspectRatio: 2.8,
+              controller: bloc.hashtagScrollController,
               mainAxisSpacing: 2,
               crossAxisCount: 2,
-              children: (state.images ?? [])
-                  .map(
-                    (e) => QuoteImageItemWidget(
-                      image:
-                          e.copyWith(isSelected: state.selectedImageId == e.id),
-                      onSelectImage: onSelectImage,
-                    ),
-                  )
+              children: (state.hashtags ?? [])
+                  .map((e) => HashTagItem(
+                        onTap: () {
+                          onSelectHashTag?.call(e);
+                        },
+                        text: e.value,
+                      ))
                   .toList()),
           width: size.width * .35,
           height: size.height * .9,
@@ -50,7 +48,7 @@ class ImagesScreen extends StatelessWidget {
     );
   }
 
-  const ImagesScreen({
-    this.onSelectImage,
+  HashtagsScreen({
+    this.onSelectHashTag,
   });
 }

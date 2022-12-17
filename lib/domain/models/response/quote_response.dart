@@ -1,6 +1,5 @@
 import 'package:admin/domain/models/id_value_data_response.dart';
 import 'package:admin/domain/models/response/quote_state_response.dart';
-import 'package:admin/screens/dashboard/quotes/bloc/quotes_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'quote_response.g.dart';

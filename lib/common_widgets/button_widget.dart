@@ -39,12 +39,13 @@ class _ButtonState extends State<Button> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.all(6),
       width: widget.width,
       margin: widget.margin ?? const EdgeInsets.all(24),
       height: widget.height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
-        color: primaryLightColor ,
+        color: primaryLightColor,
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(24),

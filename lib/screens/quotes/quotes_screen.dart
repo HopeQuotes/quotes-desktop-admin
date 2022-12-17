@@ -1,12 +1,12 @@
 import 'package:admin/constants.dart';
-import 'package:admin/screens/dashboard/quotes/bloc/quotes_bloc.dart';
-import 'package:admin/screens/dashboard/quotes/widgets/quote_item_widget.dart';
+import 'package:admin/screens/quotes/widgets/quote_item_widget.dart';
 import 'package:admin/utils/fonts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../di/injector.dart';
+import 'bloc/quotes_bloc.dart';
 
 class QuotesScreen extends StatelessWidget {
   @override

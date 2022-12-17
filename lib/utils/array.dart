@@ -1,5 +1,15 @@
 import 'package:flutter/material.dart';
 
+extension Ellips on String {
+  String ellipsize(int size) {
+    if (length > size) {
+      return "${substring(0, size)}...";
+    } else {
+      return this;
+    }
+  }
+}
+
 List<TextSpan> highlightOccurrences(String source, String query) {
   if (query.isEmpty || !source.toLowerCase().contains(query.toLowerCase())) {
     return [TextSpan(text: source)];

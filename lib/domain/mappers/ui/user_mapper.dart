@@ -12,19 +12,19 @@ extension UserResponseToCache on UserResponse {
 
 extension UserCacheToUi on UserCache {
   User toUi() {
-    return User(userID: userID, name: name, email: email, authToken: authToken);
+    return User(name: name, email: email);
   }
 }
 
-extension UserToCache on User {
-  UserCache toCache() {
-    return UserCache(
-        userID: userID, name: name, email: email, authToken: authToken);
-  }
-}
+// extension UserToCache on User {
+//   UserCache toCache() {
+//     return UserCache(
+//         userID: userID, name: name, email: email, authToken: authToken);
+//   }
+// }
 
-extension UserResponseToUi on UserResponse {
-  User toUi() {
-    return User(userID: userID, name: name, email: email, authToken: authToken);
-  }
-}
+// extension UserResponseToUi on UserResponse {
+//   User toUi() {
+//     return User(userID: userID, name: name, email: email, authToken: authToken);
+//   }
+// }

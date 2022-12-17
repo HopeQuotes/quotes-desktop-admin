@@ -1,15 +1,14 @@
 import 'package:admin/constants.dart';
 import 'package:admin/domain/models/ui/image.dart';
-import 'package:admin/screens/dashboard/create_quote/bloc/create_quote_bloc.dart';
-import 'package:admin/screens/dashboard/create_quote/hashtags_screen.dart';
-import 'package:admin/screens/dashboard/create_quote/images_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain/models/ui/id_value.dart';
 import '../../../utils/fonts.dart';
-import '../../hashtag/widget/hashtag_item.dart';
+import 'bloc/create_quote_bloc.dart';
+import 'file_content_screen.dart';
+import 'hashtags_screen.dart';
+import 'images_screen.dart';
 
 class CreateQuoteDataTabsWidget extends StatefulWidget {
   final Function(IdValue)? onSelectHashTag;
@@ -30,7 +29,7 @@ class _CreateQuoteDataTabsWidgetState extends State<CreateQuoteDataTabsWidget>
 
   @override
   void initState() {
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
     screens = [
       HashtagsScreen(
         onSelectHashTag: widget.onSelectHashTag,
@@ -38,6 +37,7 @@ class _CreateQuoteDataTabsWidgetState extends State<CreateQuoteDataTabsWidget>
       ImagesScreen(
         onSelectImage: widget.onSelectImage,
       ),
+      FileContentScreen(),
     ];
     super.initState();
   }
@@ -74,6 +74,9 @@ class _CreateQuoteDataTabsWidgetState extends State<CreateQuoteDataTabsWidget>
               ),
               Tab(
                 text: "Images",
+              ),
+              Tab(
+                text: "File",
               )
             ],
           ),

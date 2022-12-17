@@ -1,6 +1,6 @@
 part of 'create_quote_bloc.dart';
 
-enum CreateQuoteStatus { initial, success, fail, loading }
+enum CreateQuoteStatus { initial, success, fail, loading, fileOpened }
 
 enum HashTagPagingStatus {
   successPaging,
@@ -17,6 +17,7 @@ class CreateQuoteState extends Equatable {
   final List<IdValue>? hashtags;
   final List<QuoteImage>? images;
   final List<IdValue>? userHashtags;
+  final List<String>? fileContent;
   final String? message;
   final HashTagPagingStatus? hashTagPagingStatus;
   final String? selectedImageId;
@@ -30,7 +31,8 @@ class CreateQuoteState extends Equatable {
         userHashtags,
         imageStatus,
         images,
-        selectedImageId
+        selectedImageId,
+        fileContent
       ];
 
   const CreateQuoteState(
@@ -41,6 +43,7 @@ class CreateQuoteState extends Equatable {
       this.images,
       this.selectedImageId,
       this.imageStatus,
+      this.fileContent,
       this.userHashtags});
 
   CreateQuoteState copyWith({
@@ -49,6 +52,7 @@ class CreateQuoteState extends Equatable {
     List<IdValue>? hashtags,
     List<QuoteImage>? images,
     List<IdValue>? userHashtags,
+    List<String>? fileContent,
     String? message,
     HashTagPagingStatus? hashTagPagingStatus,
     String? selectedImageId,
@@ -59,6 +63,7 @@ class CreateQuoteState extends Equatable {
       hashtags: hashtags ?? this.hashtags,
       images: images ?? this.images,
       userHashtags: userHashtags ?? this.userHashtags,
+      fileContent: fileContent ?? this.fileContent,
       message: message ?? this.message,
       hashTagPagingStatus: hashTagPagingStatus ?? this.hashTagPagingStatus,
       selectedImageId: selectedImageId ?? this.selectedImageId,

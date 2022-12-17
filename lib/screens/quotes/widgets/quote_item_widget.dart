@@ -1,3 +1,4 @@
+import 'package:admin/utils/array.dart';
 import 'package:admin/utils/color.dart';
 import 'package:admin/utils/fonts.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,7 @@ class _QuoteItemWidgetState extends State<QuoteItemWidget>
             ),
             subtitle: Container(
               child: Text(
-                widget.quote.text,
+                widget.quote.text.ellipsize(200),
                 style:
                     getTextStyle(color: Colors.white.withAlpha(200), size: 14),
               ),
