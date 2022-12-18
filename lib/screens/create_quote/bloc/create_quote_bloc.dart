@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:admin/domain/models/state/domain_result.dart';
 import 'package:admin/domain/models/ui/id_value.dart';
 import 'package:admin/domain/models/ui/quote.dart';
+import 'package:admin/utils/array.dart';
 import 'package:admin/utils/controller.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -13,7 +14,6 @@ import '../../../../domain/models/ui/image.dart';
 import '../../../../domain/repository/abstraction/quote_repository.dart';
 
 part 'create_quote_event.dart';
-
 part 'create_quote_state.dart';
 
 class CreateQuoteBloc extends Bloc<CreateQuoteEvent, CreateQuoteState> {
@@ -27,7 +27,8 @@ class CreateQuoteBloc extends Bloc<CreateQuoteEvent, CreateQuoteState> {
   CreateQuoteBloc(this._repository) : super(CreateQuoteState()) {
     on<CreateQuote>(_createQuote);
     on<CreateQuotes>(_createQuotes);
-    on<RemoteHashTag>(_deleteHashtag);
+    on<RemoveHashTag>(_deleteHashtag);
+    on<RemoveText>(_deleteText);
     on<AddHashTag>(_addHashtag);
     on<LoadHashTags>(_loadHashtags);
     on<LoadImages>(_loadImages);
@@ -59,17 +60,22 @@ class CreateQuoteBloc extends Bloc<CreateQuoteEvent, CreateQuoteState> {
         _repository.analyzeQuotesFile(event.path, event.splitBy),
         onData: (data) {
       if (data is DomainSuccess<List<String>>) {
-        return state.copyWith(fileContent: data.data);
+        return state.copyWith(fileContent: data.data?.map((e) => Content(value: e)).toList());
       }
       return state;
     });
   }
 
-  Future<void> _deleteHashtag(RemoteHashTag event, Emitter emitter) async {
+  Future<void> _deleteHashtag(RemoveHashTag event, Emitter emitter) async {
     state.userHashtags
         ?.removeWhere((element) => element.value == event.hashtag.value);
 
     return emitter(state.copyWith(userHashtags: state.userHashtags));
+  }
+
+  Future<void> _deleteText(RemoveText event, Emitter emitter) async {
+    state.fileContent?.remove(event.text);
+    return emitter(state.copyWith(fileContent: state.fileContent,message: "${event.text.value.trim().ellipsize(50)} удален"));
   }
 
   Future<void> _addHashtag(AddHashTag event, Emitter emitter) async {
@@ -89,7 +95,8 @@ class CreateQuoteBloc extends Bloc<CreateQuoteEvent, CreateQuoteState> {
             authorController.text,
             bodyController.text,
             (state.userHashtags ?? []).map((e) => e.id).toList(),
-            state.selectedImageId ?? "",state.selectedQuoteState?.id ?? ""), onData: (data) {
+            state.selectedImageId ?? "",
+            state.selectedQuoteState?.id ?? ""), onData: (data) {
       if (data is DomainSuccess) {
         return state.copyWith(
             createQuoteStatus: CreateQuoteStatus.success,
@@ -114,7 +121,8 @@ class CreateQuoteBloc extends Bloc<CreateQuoteEvent, CreateQuoteState> {
             authorController.text,
             state.userHashtags ?? [],
             state.selectedImageId ?? "",
-            state.fileContent ?? [],state.selectedQuoteState?.id ?? ""), onData: (data) {
+            state.fileContent?.map((e) => e.value).toList() ?? [],
+            state.selectedQuoteState?.id ?? ""), onData: (data) {
       if (data is DomainSuccess) {
         return state.copyWith(
             createQuoteStatus: CreateQuoteStatus.success,

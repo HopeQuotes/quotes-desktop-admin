@@ -5,9 +5,7 @@ abstract class CreateQuoteEvent {}
 
 class CreateQuote extends CreateQuoteEvent {}
 
-class CreateQuotes extends CreateQuoteEvent {
-
-}
+class CreateQuotes extends CreateQuoteEvent {}
 
 class AnalyzeFile extends CreateQuoteEvent {
   final String path;
@@ -30,6 +28,7 @@ class AddHashTag extends CreateQuoteEvent {
 class LoadHashTags extends CreateQuoteEvent {}
 
 class LoadImages extends CreateQuoteEvent {}
+
 class LoadStates extends CreateQuoteEvent {}
 
 class SetSelectedImageId extends CreateQuoteEvent {
@@ -39,6 +38,7 @@ class SetSelectedImageId extends CreateQuoteEvent {
     required this.id,
   });
 }
+
 class SetSelectedState extends CreateQuoteEvent {
   final QuoteState state;
 
@@ -47,10 +47,18 @@ class SetSelectedState extends CreateQuoteEvent {
   });
 }
 
-class RemoteHashTag extends CreateQuoteEvent {
+class RemoveHashTag extends CreateQuoteEvent {
   final IdValue hashtag;
 
-  RemoteHashTag({
+  RemoveHashTag({
     required this.hashtag,
+  });
+}
+
+class RemoveText extends CreateQuoteEvent {
+  final Content text;
+
+  RemoveText({
+    required this.text,
   });
 }

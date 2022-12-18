@@ -83,7 +83,7 @@ class QuoteCreateScreen extends StatelessWidget {
                                   child: ChipItem(
                                     text: e.value,
                                     onDelete: (index) {
-                                      bloc.add(RemoteHashTag(hashtag: e));
+                                      bloc.add(RemoveHashTag(hashtag: e));
                                     },
                                     index: index,
                                   ),

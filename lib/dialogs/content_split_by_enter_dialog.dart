@@ -8,6 +8,8 @@ import 'package:flutter/cupertino.dart';
 void showSelectContentSplitByDialog(BuildContext context,
     {required Function(String value) result}) {
   final controller = TextEditingController();
+  final focus = FocusNode();
+  focus.requestFocus();
   baseDialogDialog(
       content: Container(
         height: 220,
@@ -30,6 +32,7 @@ void showSelectContentSplitByDialog(BuildContext context,
             ),
             Padding(padding: EdgeInsets.all(16)),
             Input(
+              focusNode: focus,
               hint: 'example: ***',
               controller: controller,
               margin: EdgeInsets.only(top: 12),

@@ -1,6 +1,13 @@
 part of 'create_quote_bloc.dart';
 
-enum CreateQuoteStatus { initial, success, fail, loading, fileOpened }
+enum CreateQuoteStatus {
+  initial,
+  success,
+  fail,
+  loading,
+  fileOpened,
+  hashTagRemoved
+}
 
 enum HashTagPagingStatus {
   successPaging,
@@ -11,13 +18,24 @@ enum HashTagPagingStatus {
 
 enum ImageStatus { success, fail, loading, initial }
 
+class Content extends Equatable {
+  final String value;
+
+  Content({
+    required this.value,
+  });
+
+  @override
+  List<Object?> get props => [value];
+}
+
 class CreateQuoteState extends Equatable {
   final CreateQuoteStatus? createQuoteStatus;
   final ImageStatus? imageStatus;
   final List<IdValue>? hashtags;
   final List<QuoteImage>? images;
   final List<IdValue>? userHashtags;
-  final List<String>? fileContent;
+  final List<Content>? fileContent;
   final String? message;
   final HashTagPagingStatus? hashTagPagingStatus;
   final String? selectedImageId;
@@ -58,7 +76,7 @@ class CreateQuoteState extends Equatable {
     List<IdValue>? hashtags,
     List<QuoteImage>? images,
     List<IdValue>? userHashtags,
-    List<String>? fileContent,
+    List<Content>? fileContent,
     String? message,
     HashTagPagingStatus? hashTagPagingStatus,
     String? selectedImageId,
