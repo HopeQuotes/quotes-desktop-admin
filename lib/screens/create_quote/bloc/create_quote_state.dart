@@ -21,6 +21,8 @@ class CreateQuoteState extends Equatable {
   final String? message;
   final HashTagPagingStatus? hashTagPagingStatus;
   final String? selectedImageId;
+  final List<QuoteState>? quoteStates;
+  final QuoteState? selectedQuoteState;
 
   @override
   List<Object?> get props => [
@@ -32,7 +34,9 @@ class CreateQuoteState extends Equatable {
         imageStatus,
         images,
         selectedImageId,
-        fileContent
+        fileContent,
+        quoteStates,
+        selectedQuoteState
       ];
 
   const CreateQuoteState(
@@ -44,6 +48,8 @@ class CreateQuoteState extends Equatable {
       this.selectedImageId,
       this.imageStatus,
       this.fileContent,
+      this.selectedQuoteState,
+      this.quoteStates,
       this.userHashtags});
 
   CreateQuoteState copyWith({
@@ -56,6 +62,8 @@ class CreateQuoteState extends Equatable {
     String? message,
     HashTagPagingStatus? hashTagPagingStatus,
     String? selectedImageId,
+    List<QuoteState>? quoteStates,
+    QuoteState? selectedQuoteState,
   }) {
     return CreateQuoteState(
       createQuoteStatus: createQuoteStatus ?? this.createQuoteStatus,
@@ -67,6 +75,8 @@ class CreateQuoteState extends Equatable {
       message: message ?? this.message,
       hashTagPagingStatus: hashTagPagingStatus ?? this.hashTagPagingStatus,
       selectedImageId: selectedImageId ?? this.selectedImageId,
+      quoteStates: quoteStates ?? this.quoteStates,
+      selectedQuoteState: selectedQuoteState ?? this.selectedQuoteState,
     );
   }
 }

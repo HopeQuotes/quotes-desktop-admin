@@ -14,6 +14,7 @@ CreateQuoteRequest _$CreateQuoteRequestFromJson(Map<String, dynamic> json) =>
           .map((e) => e as String)
           .toList(),
       photoId: json['photoID'] as String?,
+      stateId: json['stateID'],
     );
 
 Map<String, dynamic> _$CreateQuoteRequestToJson(CreateQuoteRequest instance) =>
@@ -22,4 +23,5 @@ Map<String, dynamic> _$CreateQuoteRequestToJson(CreateQuoteRequest instance) =>
       'text': instance.text,
       'hashtagIDs': instance.hashtagIds,
       'photoID': instance.photoId,
+      'stateID': instance.stateId
     };

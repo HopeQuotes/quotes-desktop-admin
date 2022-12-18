@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:admin/data/api/dio.dart';
 import 'package:admin/domain/mappers/ui/id_value_mapper.dart';
 import 'package:admin/domain/mappers/ui/image_mapper.dart';
+import 'package:admin/domain/mappers/ui/quote_mapper.dart';
 import 'package:admin/domain/models/request/create_quote_request.dart';
 import 'package:admin/domain/models/state/domain_result.dart';
 import 'package:admin/domain/models/ui/image.dart';
@@ -15,6 +16,7 @@ import 'package:flutter/scheduler.dart';
 import '../../models/base/base_response.dart';
 import '../../models/response/hashtags_response.dart';
 import '../../models/response/image_response.dart';
+import '../../models/response/quote_states_response.dart';
 import '../../models/ui/id_value.dart';
 
 class CreateQuoteRepositoryImpl extends QuoteRepository {
@@ -22,14 +24,14 @@ class CreateQuoteRepositoryImpl extends QuoteRepository {
 
   @override
   Stream<DomainResult> createQuote(String author, String body,
-      List<String> hashtags, String photoId) async* {
+      List<String> hashtags, String photoId,String stateId) async* {
     try {
       yield DomainLoading();
       print(author);
       print(body);
       print(hashtags);
       print(photoId);
-      if (author.trim().isEmpty || body.isEmpty || hashtags.isEmpty) {
+      if (author.trim().isEmpty || body.isEmpty || hashtags.isEmpty || stateId.isEmpty) {
         yield DomainError(message: 'Заполните все данные !');
       } else if (photoId.isEmpty) {
         yield DomainError(message: 'Выберите рисунок !');
@@ -39,7 +41,7 @@ class CreateQuoteRepositoryImpl extends QuoteRepository {
                     author: author.trim(),
                     text: body.trim(),
                     hashtagIds: hashtags,
-                    photoId: photoId)
+                    photoId: photoId, stateId: stateId)
                 .toJson());
         if (response.statusCode == 200) {
           yield DomainSuccess(message: "Цитата успешно создана !");
@@ -101,28 +103,35 @@ class CreateQuoteRepositoryImpl extends QuoteRepository {
 
   @override
   Stream<DomainResult> createQuotes(String author, List<IdValue> hashtags,
-      String photoId, List<String> contents) async* {
+      String photoId, List<String> contents,String stateId) async* {
     try {
       yield DomainLoading(message: "Подготовка к отправке...");
-      if (author.trim().isEmpty || contents.isEmpty || hashtags.isEmpty) {
+      if (author.trim().isEmpty || contents.isEmpty || hashtags.isEmpty || stateId.isEmpty) {
         yield DomainError(message: 'Заполните все данные !');
       } else if (photoId.isEmpty) {
         yield DomainError(message: 'Выберите рисунок !');
       } else {
-        await Future.delayed(Duration(seconds: 2));
+        await Future.delayed(Duration(seconds: 3));
         yield DomainLoading(message: "Отправка началось...");
         var synced = 0;
-        for(int i = 0; i < contents.length; i++) {
-          await Future.delayed(Duration(seconds: 3));
-          await _client.post('v1/quote',
-              data: CreateQuoteRequest(
-                  author: author.trim(),
-                  text: contents[i].trim(),
-                  hashtagIds: hashtags.map((e) => e.id).toList(),
-                  photoId: photoId)
-                  .toJson());
-          synced++;
-          yield DomainLoading(message: "Отправлено $synced из ${contents.length}");
+        var error = 0;
+        for (int i = 0; i < contents.length; i++) {
+          await Future.delayed(Duration(seconds: 2));
+          try {
+            await _client.post('v1/quote',
+                data: CreateQuoteRequest(
+                        author: author.trim(),
+                        text: contents[i].trim(),
+                        hashtagIds: hashtags.map((e) => e.id).toList(),
+                        photoId: photoId, stateId: stateId)
+                    .toJson());
+            synced++;
+            yield DomainLoading(
+                message:
+                    "Отправлено $synced из ${contents.length} ошибок $error");
+          } catch (e) {
+            error++;
+          }
         }
         yield DomainSuccess();
       }
@@ -138,5 +147,20 @@ class CreateQuoteRepositoryImpl extends QuoteRepository {
     print(content);
     var splitted = content.split(splitBy);
     yield DomainSuccess(data: splitted);
+  }
+
+  @override
+  Stream<DomainResult> getQuoteStates() async* {
+    try {
+      yield DomainLoading();
+      var response = await _client.get('v1/quote/states');
+      var decoded = BaseResponse<QuoteStatesResponse>.fromJson(
+          jsonDecode(response.data), (p0) => QuoteStatesResponse.fromJson(p0));
+
+      yield DomainSuccess<List<QuoteState>>(
+          data: decoded.data.data.map((e) => e.toUi()).toList());
+    } catch (e) {
+      yield DomainError(message: 'Something went wrong...');
+    }
   }
 }

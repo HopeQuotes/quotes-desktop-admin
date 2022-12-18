@@ -30,12 +30,20 @@ class AddHashTag extends CreateQuoteEvent {
 class LoadHashTags extends CreateQuoteEvent {}
 
 class LoadImages extends CreateQuoteEvent {}
+class LoadStates extends CreateQuoteEvent {}
 
 class SetSelectedImageId extends CreateQuoteEvent {
   final String id;
 
   SetSelectedImageId({
     required this.id,
+  });
+}
+class SetSelectedState extends CreateQuoteEvent {
+  final QuoteState state;
+
+  SetSelectedState({
+    required this.state,
   });
 }
 

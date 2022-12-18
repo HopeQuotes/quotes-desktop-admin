@@ -31,6 +31,8 @@ class CreateQuoteBloc extends Bloc<CreateQuoteEvent, CreateQuoteState> {
     on<AddHashTag>(_addHashtag);
     on<LoadHashTags>(_loadHashtags);
     on<LoadImages>(_loadImages);
+    on<SetSelectedState>(_setSelectedState);
+    on<LoadStates>(_loadQuoteStates);
     on<SetSelectedImageId>(_setSelectedImage);
     on<AnalyzeFile>(_analyzeFile);
 
@@ -45,6 +47,11 @@ class CreateQuoteBloc extends Bloc<CreateQuoteEvent, CreateQuoteState> {
   Future<void> _setSelectedImage(
       SetSelectedImageId event, Emitter emitter) async {
     return emitter(state.copyWith(selectedImageId: event.id));
+  }
+
+  Future<void> _setSelectedState(
+      SetSelectedState event, Emitter emitter) async {
+    return emitter(state.copyWith(selectedQuoteState: event.state));
   }
 
   Future<void> _analyzeFile(AnalyzeFile event, Emitter emitter) async {
@@ -82,7 +89,7 @@ class CreateQuoteBloc extends Bloc<CreateQuoteEvent, CreateQuoteState> {
             authorController.text,
             bodyController.text,
             (state.userHashtags ?? []).map((e) => e.id).toList(),
-            state.selectedImageId ?? ""), onData: (data) {
+            state.selectedImageId ?? "",state.selectedQuoteState?.id ?? ""), onData: (data) {
       if (data is DomainSuccess) {
         return state.copyWith(
             createQuoteStatus: CreateQuoteStatus.success,
@@ -107,7 +114,7 @@ class CreateQuoteBloc extends Bloc<CreateQuoteEvent, CreateQuoteState> {
             authorController.text,
             state.userHashtags ?? [],
             state.selectedImageId ?? "",
-            state.fileContent ?? []), onData: (data) {
+            state.fileContent ?? [],state.selectedQuoteState?.id ?? ""), onData: (data) {
       if (data is DomainSuccess) {
         return state.copyWith(
             createQuoteStatus: CreateQuoteStatus.success,
@@ -144,6 +151,16 @@ class CreateQuoteBloc extends Bloc<CreateQuoteEvent, CreateQuoteState> {
       if (data is DomainError) {
         return state.copyWith(
             hashTagPagingStatus: HashTagPagingStatus.failPaging);
+      }
+      return state;
+    });
+  }
+
+  Future<void> _loadQuoteStates(LoadStates event, Emitter emitter) async {
+    return emitter.forEach<DomainResult>(_repository.getQuoteStates(),
+        onData: (data) {
+      if (data is DomainSuccess<List<QuoteState>>) {
+        return state.copyWith(quoteStates: data.data);
       }
       return state;
     });

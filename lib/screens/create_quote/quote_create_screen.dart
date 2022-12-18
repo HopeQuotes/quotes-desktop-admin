@@ -25,6 +25,7 @@ class QuoteCreateScreen extends StatelessWidget {
       body: BlocProvider(
         create: (_) => CreateQuoteBloc(injector())
           ..add(LoadHashTags())
+          ..add(LoadStates())
           ..add(LoadImages()),
         child: BlocConsumer<CreateQuoteBloc, CreateQuoteState>(
           builder: (context, state) {
@@ -127,7 +128,6 @@ class QuoteCreateScreen extends StatelessWidget {
                             ),
                           ),
                           Container(
-
                             padding: EdgeInsets.all(24),
                             alignment: Alignment.centerRight,
                             child: Button(

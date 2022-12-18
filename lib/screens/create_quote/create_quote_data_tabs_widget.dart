@@ -1,5 +1,6 @@
 import 'package:admin/constants.dart';
 import 'package:admin/domain/models/ui/image.dart';
+import 'package:admin/screens/create_quote/states_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,7 +30,7 @@ class _CreateQuoteDataTabsWidgetState extends State<CreateQuoteDataTabsWidget>
 
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
     screens = [
       HashtagsScreen(
         onSelectHashTag: widget.onSelectHashTag,
@@ -38,6 +39,7 @@ class _CreateQuoteDataTabsWidgetState extends State<CreateQuoteDataTabsWidget>
         onSelectImage: widget.onSelectImage,
       ),
       FileContentScreen(),
+      StatesScreen(),
     ];
     super.initState();
   }
@@ -77,6 +79,9 @@ class _CreateQuoteDataTabsWidgetState extends State<CreateQuoteDataTabsWidget>
               ),
               Tab(
                 text: "File",
+              ),
+              Tab(
+                text: "States",
               )
             ],
           ),
