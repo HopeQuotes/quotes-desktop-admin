@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:admin/data/api/dio.dart';
 import 'package:admin/domain/mappers/ui/id_value_mapper.dart';
@@ -103,13 +104,14 @@ class CreateQuoteRepositoryImpl extends QuoteRepository {
 
   @override
   Stream<DomainResult> createQuotes(String author, List<IdValue> hashtags,
-      String photoId, List<String> contents,String stateId) async* {
+      List<String> photoIds, List<String> contents,String stateId) async* {
     try {
+      var random = Random();
       yield DomainLoading(message: "Подготовка к отправке...");
       if (author.trim().isEmpty || contents.isEmpty || hashtags.isEmpty || stateId.isEmpty) {
         yield DomainError(message: 'Заполните все данные !');
-      } else if (photoId.isEmpty) {
-        yield DomainError(message: 'Выберите рисунок !');
+      } else if (photoIds.isEmpty) {
+        yield DomainError(message: 'Нужны рисунки для цитаты !');
       } else {
         await Future.delayed(Duration(seconds: 3));
         yield DomainLoading(message: "Отправка началось...");
@@ -123,7 +125,7 @@ class CreateQuoteRepositoryImpl extends QuoteRepository {
                         author: author.trim(),
                         text: contents[i].trim(),
                         hashtagIds: hashtags.map((e) => e.id).toList(),
-                        photoId: photoId, stateId: stateId)
+                        photoId: photoIds[random.nextInt(photoIds.length - 1)], stateId: stateId)
                     .toJson());
             synced++;
             yield DomainLoading(

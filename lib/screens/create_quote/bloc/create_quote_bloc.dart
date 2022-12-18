@@ -120,7 +120,7 @@ class CreateQuoteBloc extends Bloc<CreateQuoteEvent, CreateQuoteState> {
         _repository.createQuotes(
             authorController.text,
             state.userHashtags ?? [],
-            state.selectedImageId ?? "",
+            state.images?.map((e) => e.id).toList() ?? [],
             state.fileContent?.map((e) => e.value).toList() ?? [],
             state.selectedQuoteState?.id ?? ""), onData: (data) {
       if (data is DomainSuccess) {

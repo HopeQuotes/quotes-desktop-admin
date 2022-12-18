@@ -10,7 +10,7 @@ abstract class QuoteRepository {
   Stream<DomainResult> analyzeQuotesFile(String path, String splitBy);
 
   Stream<DomainResult> createQuotes(String author, List<IdValue> hashtags,
-      String photoId, List<String> contents, String stateId);
+      List<String> photoIds, List<String> contents, String stateId);
 
   Stream<DomainResult> getHashtags(int page);
 
