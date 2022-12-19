@@ -1,6 +1,6 @@
 # Quotes-admin-app
 
-[![GitHub stars](https://img.shields.io/github/stars/HopeQuotes/Quotes-app-?style=social)](https://github.com/HopeQuotes/Quotes-app-)
+[![GitHub stars](https://img.shields.io/github/stars/HopeQuotes/quotes-desktop-admin?style=social)](https://github.com/HopeQuotes/quotes-desktop-admin)
 ![GitHub forks](https://img.shields.io/github/forks/HopeQuotes/quotes-desktop-admin?style=social)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/HopeQuotes/quotes-desktop-admin)
 ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/HopeQuotes/quotes-desktop-admin)
