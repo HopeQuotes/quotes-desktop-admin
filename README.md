@@ -26,9 +26,9 @@
 
 # Screenshots
 
-![alt text](https://github.com/HopeQuotes/quotes-desktop-admin/blob/main/screenshots/group_rounded1.png)
+![alt text](https://github.com/HopeQuotes/quotes-desktop-admin/blob/main/screenshots/admin_image1.png)
 
-![alt text](https://github.com/HopeQuotes/quotes-desktop-admin/blob/main/screenshots/group_rounded2.png)
+![alt text](https://github.com/HopeQuotes/quotes-desktop-admin/blob/main/screenshots/admin_image2.png)
 
 ## Created & Maintained By
 
