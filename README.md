@@ -1,12 +1,12 @@
 # Quotes-admin-app
 
 [![GitHub stars](https://img.shields.io/github/stars/HopeQuotes/Quotes-app-?style=social)](https://github.com/HopeQuotes/Quotes-app-)
-![GitHub forks](https://img.shields.io/github/forks/HopeQuotes/Quotes-app-?style=social)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/HopeQuotes/Quotes-app-)
-![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/HopeQuotes/Quotes-app-)
-![GitHub last commit](https://img.shields.io/github/last-commit/HopeQuotes/Quotes-app-)
-![GitHub issues](https://img.shields.io/github/issues-raw/HopeQuotes/Quotes-app-)
-[![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/HopeQuotes/Quotes-app-)
+![GitHub forks](https://img.shields.io/github/forks/HopeQuotes/quotes-desktop-admin?style=social)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/HopeQuotes/quotes-desktop-admin)
+![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/HopeQuotes/quotes-desktop-admin)
+![GitHub last commit](https://img.shields.io/github/last-commit/HopeQuotes/quotes-desktop-admin)
+![GitHub issues](https://img.shields.io/github/issues-raw/HopeQuotes/quotes-desktop-admin)
+[![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/HopeQuotes/quotes-desktop-admin)
 
 :octocat: **Backend developer.**
 [![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white)](https://github.com/javlonrahimov)
