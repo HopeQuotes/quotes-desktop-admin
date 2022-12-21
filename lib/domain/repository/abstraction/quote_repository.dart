@@ -6,15 +6,15 @@ import '../../models/state/domain_result.dart';
 abstract class QuoteRepository {
   Stream<DomainResult> createQuote(String author, String body,
       List<String> hashtags, String photoId, String stateId);
+  Stream<DomainResult> getHashtags(int page);
+  Stream<DomainResult> getImages();
 
   Stream<DomainResult> analyzeQuotesFile(String path, String splitBy);
 
   Stream<DomainResult> createQuotes(String author, List<IdValue> hashtags,
       List<String> photoIds, List<String> contents, String stateId);
 
-  Stream<DomainResult> getHashtags(int page);
 
-  Stream<DomainResult> getImages();
 
   Stream<DomainResult> deleteQuote();
 
