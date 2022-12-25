@@ -41,13 +41,13 @@ class SideMenu extends StatelessWidget {
               _onSelectMenu.call(QuotesScreen());
             },
           ),
-          DrawerListTile(
-            title: "Users",
-            icon: Icons.supervised_user_circle,
-            press: () {
-              _onSelectMenu.call(UsersScreen());
-            },
-          ),
+          // DrawerListTile(
+          //   title: "Users",
+          //   icon: Icons.supervised_user_circle,
+          //   press: () {
+          //     _onSelectMenu.call(UsersScreen());
+          //   },
+          // ),
           DrawerListTile(
             title: "Create",
             icon: Icons.add,
